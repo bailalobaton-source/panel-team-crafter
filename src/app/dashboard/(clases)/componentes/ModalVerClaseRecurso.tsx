@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/react";
-import Image from "next/image";
 
 interface Props {
   open: boolean;

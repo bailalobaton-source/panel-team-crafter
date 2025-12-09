@@ -64,7 +64,7 @@ export default function ModalEditarBanner({
             <ModalBody>
               <img
                 className="w-full  object-cover rounded-xl"
-                src={`${process.env.NEXT_PUBLIC_API_URL_UPLOADS}/img/${selectedBanner.url_banner}`}
+                src={`${process.env.NEXT_PUBLIC_API_URL_UPLOADS}/${selectedBanner.url_banner}`}
                 alt="ps y ai"
               />
               <form
