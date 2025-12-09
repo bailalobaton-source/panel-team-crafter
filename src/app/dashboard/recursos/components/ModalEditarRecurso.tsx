@@ -62,7 +62,7 @@ export default function ModalEditarRecurso({
         )
       );
     }
-  }, [selectedRecurso, setValue]);
+  }, [selectedRecurso, setValue, open]);
 
   const onSubmit = async (data: FormRecurso) => {
     if (!selectedRecurso) return;

@@ -10,12 +10,9 @@ import {
   TableRow,
   Button,
   Tooltip,
-  useDisclosure,
 } from "@heroui/react";
 import { BiPencil } from "react-icons/bi";
 import { BsTrash2 } from "react-icons/bs";
-import VerVideo from "./VerVideo";
-import { useState } from "react";
 
 interface Props {
   clases: Clase[];
@@ -30,9 +27,6 @@ export default function TablaClases({
   setSelectedClase,
   setOpenModal,
 }: Props) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [urlVideo, setUrlVideo] = useState("");
-
   return (
     <div>
       <Table
@@ -48,7 +42,6 @@ export default function TablaClases({
       >
         <TableHeader>
           <TableColumn className="text-xs text-stone-800">#</TableColumn>
-          <TableColumn className="text-xs text-stone-800">Video</TableColumn>
 
           <TableColumn className="text-xs text-stone-800">Título</TableColumn>
           <TableColumn className="text-xs text-stone-800">
@@ -67,19 +60,6 @@ export default function TablaClases({
           {clases?.map((clase, index) => (
             <TableRow key={index}>
               <TableCell className="text-xs">{index + 1}</TableCell>
-
-              <TableCell className="text-xs">
-                <Button
-                  color="primary"
-                  size="sm"
-                  onPress={() => {
-                    setUrlVideo(clase.video_clase);
-                    onOpen();
-                  }}
-                >
-                  ver video
-                </Button>
-              </TableCell>
 
               <TableCell className="text-xs">{clase.titulo_clase}</TableCell>
               <TableCell className="text-xs">{clase.categoria_clase}</TableCell>
@@ -133,7 +113,7 @@ export default function TablaClases({
           ))}
         </TableBody>
       </Table>{" "}
-      <VerVideo onClose={onOpenChange} isOpen={isOpen} urlVideo={urlVideo} />
+      {/* <VerVideo onClose={onOpenChange} isOpen={isOpen} urlVideo={urlVideo} /> */}
     </div>
   );
 }

@@ -39,13 +39,13 @@ export default function ModalVerClaseRecurso({
             <ModalBody>
               <Card shadow="sm" className="rounded-xl border border-gray-200">
                 <CardHeader className="flex gap-3 items-center">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL_UPLOADS}/img/${selectedClase.image_clase}`}
-                    alt={selectedClase.titulo_clase}
-                    width={80}
-                    height={80}
-                    className="rounded-lg object-cover"
-                  />
+                  <div className="w-32">
+                    <VideoPlayer
+                      hlsUrl={selectedClase.video_clase}
+                      ThumbnailUrl={selectedClase.poster_url}
+                      mode="poster"
+                    />
+                  </div>
                   <div>
                     <h2 className="text-lg font-semibold">
                       {selectedClase.titulo_clase}

@@ -51,6 +51,7 @@ export default function ModalAgregarRecurso({
 
       const formData = new FormData();
       formData.append("nombre_recurso", data.nombre_recurso);
+      formData.append("nombre_recurso_en", data.nombre_recurso_en);
       formData.append("fecha_caducidad", data.fecha_caducidad);
       formData.append("tipo_recurso", data.tipo_recurso);
       formData.append("categoria_recurso", data.categoria_recurso);
@@ -82,7 +83,7 @@ export default function ModalAgregarRecurso({
   };
 
   return (
-    <Modal isOpen={open} onOpenChange={onClose}>
+    <Modal isOpen={open} onOpenChange={onClose} size="2xl">
       {loading && <Loading />}
 
       <ModalContent>
@@ -99,6 +100,7 @@ export default function ModalAgregarRecurso({
                     classNames={selectClassNames}
                     label="Clases Disponibles"
                     labelPlacement="outside"
+                    variant="bordered"
                     {...register("clase_id")}
                     errorMessage="Seleccione una opción"
                     radius="sm"
@@ -113,19 +115,32 @@ export default function ModalAgregarRecurso({
                       ))}
                   </Select>
                 )}
-
-                <Input
-                  isRequired
-                  classNames={inputClassNames}
-                  label="Nombre del recurso"
-                  placeholder="..."
-                  variant="bordered"
-                  labelPlacement="outside"
-                  {...register("nombre_recurso")}
-                  errorMessage="El titulo de la clase es obligatorio"
-                  radius="sm"
-                  size="sm"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Nombre del recurso"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("nombre_recurso")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Nombre del recurso (en inglés)"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("nombre_recurso_en")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
                 <Input
                   isRequired
                   classNames={inputClassNames}
@@ -175,6 +190,7 @@ export default function ModalAgregarRecurso({
                   classNames={selectClassNames}
                   label="Tipo Recurso"
                   labelPlacement="outside"
+                  variant="bordered"
                   {...register("tipo_recurso")}
                   errorMessage="Seleccione una categoría"
                   radius="sm"
@@ -190,6 +206,7 @@ export default function ModalAgregarRecurso({
                   classNames={selectClassNames}
                   label="Categoria"
                   labelPlacement="outside"
+                  variant="bordered"
                   {...register("categoria_recurso")}
                   errorMessage="Seleccione una opción"
                   radius="sm"

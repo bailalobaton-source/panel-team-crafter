@@ -62,7 +62,7 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
   };
 
   return (
-    <Modal isOpen={open} onOpenChange={onClose}>
+    <Modal isOpen={open} onOpenChange={onClose} size="3xl">
       {loading && <Loading />}
 
       <ModalContent>
@@ -74,18 +74,32 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-2"
               >
-                <Input
-                  isRequired
-                  classNames={inputClassNames}
-                  label="Titulo de la clase"
-                  placeholder="..."
-                  variant="bordered"
-                  labelPlacement="outside"
-                  {...register("titulo_clase")}
-                  errorMessage="El titulo de la clase es obligatorio"
-                  radius="sm"
-                  size="sm"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Titulo de la clase"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("titulo_clase")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Titulo de la clase"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("titulo_clase_en")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
                 <Input
                   isRequired
                   classNames={inputClassNames}
@@ -124,46 +138,65 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                   radius="sm"
                   size="sm"
                 />
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Categoría"
-                  labelPlacement="outside"
-                  {...register("categoria_clase")}
-                  errorMessage="Seleccione una categoría"
-                  radius="sm"
-                  size="sm"
-                >
-                  {categoriasClase.map((categoria) => (
-                    <SelectItem key={categoria}>{categoria}</SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Tutoriales / Tips"
-                  labelPlacement="outside"
-                  {...register("tutoriales_tips")}
-                  errorMessage="Seleccione una opción"
-                  radius="sm"
-                  size="sm"
-                >
-                  {tutorialesTips.map((tip) => (
-                    <SelectItem key={tip}>{tip}</SelectItem>
-                  ))}
-                </Select>
-                <Textarea
-                  isRequired
-                  classNames={inputClassNames}
-                  label="Descripción de la clase"
-                  placeholder="..."
-                  variant="bordered"
-                  labelPlacement="outside"
-                  {...register("descripcion_clase")}
-                  errorMessage="La descripción de la clase es obligatorio"
-                  radius="sm"
-                  size="sm"
-                />
+                <div className="flex gap-2">
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Categoría"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("categoria_clase")}
+                    errorMessage="Seleccione una categoría"
+                    radius="sm"
+                    size="sm"
+                  >
+                    {categoriasClase.map((categoria) => (
+                      <SelectItem key={categoria}>{categoria}</SelectItem>
+                    ))}
+                  </Select>
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Tutoriales / Tips"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("tutoriales_tips")}
+                    errorMessage="Seleccione una opción"
+                    radius="sm"
+                    size="sm"
+                  >
+                    {tutorialesTips.map((tip) => (
+                      <SelectItem key={tip}>{tip}</SelectItem>
+                    ))}
+                  </Select>
+                </div>
+                <div className="flex gap-2">
+                  <Textarea
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Descripción de la clase"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("descripcion_clase")}
+                    errorMessage="La descripción de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+
+                  <Textarea
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Descripción de la clase"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("descripcion_clase_en")}
+                    errorMessage="La descripción de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
                 <div className="flex justify-end gap-3 mt-4">
                   <Button color="danger" type="button" onPress={onClose}>
                     Cancelar

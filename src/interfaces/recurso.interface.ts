@@ -3,6 +3,8 @@ import { Clase } from "./clase.interface";
 export interface FormRecurso {
   imagen_recurso: File[] | null;
   nombre_recurso: string;
+  nombre_recurso_en: string;
+
   fecha_caducidad: string;
   tipo_recurso: string;
   categoria_recurso: string;
@@ -15,6 +17,7 @@ export interface Recurso {
   id: number;
   imagen_recurso: string;
   nombre_recurso: string;
+  nombre_recurso_en: string;
   fecha_caducidad: string;
   tipo_recurso: string;
   categoria_recurso: string;
