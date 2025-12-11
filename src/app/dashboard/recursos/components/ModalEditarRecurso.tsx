@@ -52,6 +52,7 @@ export default function ModalEditarRecurso({
   useEffect(() => {
     if (selectedRecurso) {
       setValue("nombre_recurso", selectedRecurso.nombre_recurso);
+      setValue("nombre_recurso_en", selectedRecurso.nombre_recurso_en);
       setValue("fecha_caducidad", selectedRecurso.fecha_caducidad);
       setValue("tipo_recurso", selectedRecurso.tipo_recurso);
       setValue("categoria_recurso", selectedRecurso.categoria_recurso);
@@ -72,6 +73,8 @@ export default function ModalEditarRecurso({
 
       const formData = new FormData();
       formData.append("nombre_recurso", data.nombre_recurso);
+      formData.append("nombre_recurso_en", data.nombre_recurso_en);
+
       formData.append("fecha_caducidad", data.fecha_caducidad);
       formData.append("tipo_recurso", data.tipo_recurso);
       formData.append("categoria_recurso", data.categoria_recurso);
@@ -102,7 +105,7 @@ export default function ModalEditarRecurso({
   };
 
   return (
-    <Modal isOpen={open} onOpenChange={onClose}>
+    <Modal isOpen={open} onOpenChange={onClose} size="2xl">
       {loading && <Loading />}
 
       <ModalContent>
@@ -112,55 +115,81 @@ export default function ModalEditarRecurso({
 
             <ModalBody>
               <form
-                className="flex flex-col gap-2"
                 onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-2"
               >
-                <Select
-                  classNames={selectClassNames}
-                  label="Clases Disponibles"
+                {clases && (
+                  <Select
+                    classNames={selectClassNames}
+                    label="Clases Disponibles"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("clase_id")}
+                    errorMessage="Seleccione una opción"
+                    radius="sm"
+                    size="sm"
+                  >
+                    {clases
+                      .filter((c) => !c.recurso)
+                      ?.map((clase) => (
+                        <SelectItem key={clase.id}>
+                          {clase.titulo_clase}
+                        </SelectItem>
+                      ))}
+                  </Select>
+                )}
+                <div className="flex gap-2">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Nombre del recurso"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("nombre_recurso")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Nombre del recurso (en inglés)"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("nombre_recurso_en")}
+                    errorMessage="El titulo de la clase es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
+                <Input
+                  classNames={inputClassNames}
+                  label="File del recurso"
+                  placeholder="..."
+                  variant="bordered"
+                  type="file"
                   labelPlacement="outside"
-                  {...register("clase_id")}
+                  accept=".zip,application/zip,application/x-zip-compressed" // ✅ solo zip
+                  {...register("link_recurso")}
+                  errorMessage="El file del recurso es obligatorio"
                   radius="sm"
                   size="sm"
-                >
-                  <>
-                    <SelectItem key="">Sin Clase</SelectItem>
-
-                    {clases.map((clase) => (
-                      <SelectItem key={clase.id}>
-                        {clase.titulo_clase}
-                      </SelectItem>
-                    ))}
-                  </>
-                </Select>
-
-                <Input
-                  isRequired
-                  classNames={inputClassNames}
-                  label="Nombre del recurso"
-                  variant="bordered"
-                  labelPlacement="outside"
-                  {...register("nombre_recurso")}
                 />
 
                 <Input
                   classNames={inputClassNames}
-                  label="Nuevo archivo ZIP (opcional)"
-                  type="file"
+                  label="Portada del recurso"
+                  placeholder="..."
                   variant="bordered"
-                  labelPlacement="outside"
-                  accept=".zip"
-                  {...register("link_recurso")}
-                />
-
-                <Input
-                  classNames={inputClassNames}
-                  label="Nueva portada (opcional)"
                   type="file"
-                  variant="bordered"
                   labelPlacement="outside"
                   accept="image/*"
                   {...register("img_recurso")}
+                  errorMessage="La portada del recurso es obligatorio"
+                  radius="sm"
+                  size="sm"
                 />
 
                 <Input
@@ -168,9 +197,13 @@ export default function ModalEditarRecurso({
                   classNames={inputClassNames}
                   label="Fecha de caducidad"
                   type="date"
+                  placeholder="..."
                   variant="bordered"
                   labelPlacement="outside"
                   {...register("fecha_caducidad")}
+                  errorMessage="La fecha de caducidad es obligatorio"
+                  radius="sm"
+                  size="sm"
                 />
 
                 <Select
@@ -178,7 +211,9 @@ export default function ModalEditarRecurso({
                   classNames={selectClassNames}
                   label="Tipo Recurso"
                   labelPlacement="outside"
+                  variant="bordered"
                   {...register("tipo_recurso")}
+                  errorMessage="Seleccione una categoría"
                   radius="sm"
                   size="sm"
                 >
@@ -190,9 +225,11 @@ export default function ModalEditarRecurso({
                 <Select
                   isRequired
                   classNames={selectClassNames}
-                  label="Categoría"
+                  label="Categoria"
                   labelPlacement="outside"
+                  variant="bordered"
                   {...register("categoria_recurso")}
+                  errorMessage="Seleccione una opción"
                   radius="sm"
                   size="sm"
                 >
@@ -206,7 +243,7 @@ export default function ModalEditarRecurso({
                     Cancelar
                   </Button>
                   <Button color="primary" type="submit">
-                    Actualizar
+                    Guardar
                   </Button>
                 </div>
               </form>

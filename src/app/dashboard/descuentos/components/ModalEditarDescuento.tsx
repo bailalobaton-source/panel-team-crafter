@@ -1,6 +1,6 @@
 import Loading from "@/src/components/Loading";
 import { Descuento } from "@/src/interfaces/descuento.interface";
-import { postDescuento } from "@/src/service/descuento.service";
+import { updateDescuento } from "@/src/service/descuento.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { useNumericInput } from "@/utils/onInputs";
@@ -15,19 +15,21 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  descuento: Descuento | null; // datos a editar
   gfindDescuentos: () => void;
 }
 
-export default function ModalNuevoDescuento({
+export default function ModalEditarDescuento({
   open,
   onClose,
+  descuento,
   gfindDescuentos,
 }: Props) {
   const { register, handleSubmit, reset } = useForm<Descuento>();
@@ -35,12 +37,13 @@ export default function ModalNuevoDescuento({
 
   const onSubmit = async (data: Descuento) => {
     try {
+      if (!descuento?.id) return;
+
       setLoading(true);
+      await updateDescuento(descuento.id, data);
 
-      await postDescuento(data); // <-- ahora se envía como multipart/form-data
+      toast.success("El descuento se actualizó correctamente");
 
-      toast.success("La notificación se creó correctamente");
-      reset();
       gfindDescuentos();
       onClose();
     } catch (err) {
@@ -57,7 +60,7 @@ export default function ModalNuevoDescuento({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="pb-0 ">Agregar Descuento</ModalHeader>
+            <ModalHeader className="pb-0">Editar Descuento</ModalHeader>
             <ModalBody>
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -74,6 +77,7 @@ export default function ModalNuevoDescuento({
                     {...register("titulo_descuento")}
                     radius="sm"
                     size="sm"
+                    defaultValue={descuento?.titulo_descuento}
                   />
                   <Input
                     isRequired
@@ -85,6 +89,7 @@ export default function ModalNuevoDescuento({
                     {...register("titulo_descuento_en")}
                     radius="sm"
                     size="sm"
+                    defaultValue={descuento?.titulo_descuento_en}
                   />
                 </div>
 
@@ -100,6 +105,7 @@ export default function ModalNuevoDescuento({
                     {...register("fecha_expiracion")}
                     radius="sm"
                     size="sm"
+                    defaultValue={descuento?.fecha_expiracion}
                   />
                   <Select
                     isRequired
@@ -110,6 +116,7 @@ export default function ModalNuevoDescuento({
                     {...register("tipo_descuento")}
                     radius="sm"
                     size="sm"
+                    defaultSelectedKeys={[descuento?.tipo_descuento || ""]}
                   >
                     <SelectItem key="porcentaje">porcentaje</SelectItem>
                     <SelectItem key="monto">monto</SelectItem>
@@ -124,6 +131,7 @@ export default function ModalNuevoDescuento({
                     radius="sm"
                     size="sm"
                     onInput={useNumericInput}
+                    defaultValue={descuento?.valor_descuento}
                   />
                 </div>
                 <div className="flex gap-2">
@@ -136,6 +144,7 @@ export default function ModalNuevoDescuento({
                     {...register("codigo_descuento")}
                     radius="sm"
                     size="sm"
+                    defaultValue={descuento?.codigo_descuento}
                   />
                 </div>
 
@@ -150,7 +159,8 @@ export default function ModalNuevoDescuento({
                     {...register("descripcion_descuento")}
                     radius="sm"
                     size="sm"
-                  />{" "}
+                    defaultValue={descuento?.descripcion_descuento}
+                  />
                   <Textarea
                     isRequired
                     classNames={inputClassNames}
@@ -161,6 +171,7 @@ export default function ModalNuevoDescuento({
                     {...register("descripcion_descuento_en")}
                     radius="sm"
                     size="sm"
+                    defaultValue={descuento?.descripcion_descuento_en}
                   />
                 </div>
 

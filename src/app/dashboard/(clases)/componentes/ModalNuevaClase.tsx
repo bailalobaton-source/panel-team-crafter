@@ -90,7 +90,7 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                   <Input
                     isRequired
                     classNames={inputClassNames}
-                    label="Titulo de la clase"
+                    label="Titulo de la clase (en inglés)"
                     placeholder="..."
                     variant="bordered"
                     labelPlacement="outside"
@@ -187,7 +187,7 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                   <Textarea
                     isRequired
                     classNames={inputClassNames}
-                    label="Descripción de la clase"
+                    label="Descripción de la clase (en inglés)"
                     placeholder="..."
                     variant="bordered"
                     labelPlacement="outside"

@@ -8,7 +8,7 @@ import { Descuento } from "@/src/interfaces/descuento.interface";
 import TablaDescuentos from "./components/TablaDescuentos";
 import ModalNuevoDescuento from "./components/ModalNuevoDescuento";
 import { getDescuento } from "@/src/service/descuento.service";
-import ModalEditarDescuento from "./components/ModalEditarNotificacion";
+import ModalEditarDescuento from "./components/ModalEditarDescuento";
 import ModalEliminarDescuento from "./components/ModalEliminarNotificacion";
 
 export default function Notificaciones() {
@@ -69,6 +69,7 @@ export default function Notificaciones() {
       )}
       {selectModal === "editar_notificacion" && selectedDescuento && (
         <ModalEditarDescuento
+          key={selectedDescuento.id}
           open={openModal}
           onClose={() => setOpenModal(false)}
           gfindDescuentos={gfindDescuentos}

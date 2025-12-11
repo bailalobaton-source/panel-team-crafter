@@ -1,5 +1,5 @@
 export const inputClassNames = {
-  inputWrapper: "min-h-10  border-1 border-neutral-300",
+  inputWrapper: "min-h-10  border-1 border-neutral-400",
   label: "text-neutral-600 font-semibold",
 };
 
@@ -9,7 +9,7 @@ export const inputNoLabelClassNames = {
 };
 
 export const selectClassNames = {
-  trigger: "min-h-10 border-1 border-neutral-300",
+  trigger: "min-h-10 border-1 border-neutral-400",
   label: " text-neutral-800 font-semibold",
 };
 export const selectNoLabelClassNames = {
