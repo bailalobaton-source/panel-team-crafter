@@ -3,7 +3,6 @@ import instance from "./axiosInstance";
 
 export async function getClases() {
   const res = await instance.get(`/clase-admin`);
-  console.log(res);
 
   return res.data.clases;
 }

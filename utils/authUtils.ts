@@ -4,7 +4,6 @@
 // Guardar el token en la cookie (solo en el cliente)
 export function setToken(token: string) {
   if (typeof window !== "undefined") {
-    console.log("Guardando token en cliente:", token);
     document.cookie = `token=${token}; path=/; max-age=31536000`;
   }
 }

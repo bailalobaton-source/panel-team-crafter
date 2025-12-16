@@ -31,7 +31,6 @@ export default function Notificaciones() {
       setLoading(false);
     }
   }, []);
-  console.log(selectedDescuento);
 
   useEffect(() => {
     gfindDescuentos();
