@@ -164,33 +164,57 @@ export default function ModalEditarRecurso({
                     size="sm"
                   />
                 </div>
-                <Input
-                  classNames={inputClassNames}
-                  label="File del recurso"
-                  placeholder="..."
-                  variant="bordered"
-                  type="file"
-                  labelPlacement="outside"
-                  accept=".zip,application/zip,application/x-zip-compressed" // ✅ solo zip
-                  {...register("link_recurso")}
-                  errorMessage="El file del recurso es obligatorio"
-                  radius="sm"
-                  size="sm"
-                />
+                <div className="flex gap-2 items-end">
+                  <Input
+                    classNames={inputClassNames}
+                    label="File del recurso"
+                    placeholder="..."
+                    variant="bordered"
+                    type="file"
+                    labelPlacement="outside"
+                    accept=".zip,application/zip,application/x-zip-compressed" // ✅ solo zip
+                    {...register("link_recurso")}
+                    errorMessage="El file del recurso es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
+                  {selectedRecurso?.link_recurso && (
+                    <p className=" text-xs ">
+                      File actual del recurso : <br />{" "}
+                      <span className="text-pink-500">
+                        {selectedRecurso?.link_recurso}
+                      </span>
+                    </p>
+                  )}
+                </div>
+                <div className="flex gap-2 items-end pt-4">
+                  <Input
+                    classNames={inputClassNames}
+                    label="Portada del recurso"
+                    placeholder="..."
+                    variant="bordered"
+                    type="file"
+                    labelPlacement="outside"
+                    accept="image/*"
+                    {...register("img_recurso")}
+                    errorMessage="La portada del recurso es obligatorio"
+                    radius="sm"
+                    size="sm"
+                  />
 
-                <Input
-                  classNames={inputClassNames}
-                  label="Portada del recurso"
-                  placeholder="..."
-                  variant="bordered"
-                  type="file"
-                  labelPlacement="outside"
-                  accept="image/*"
-                  {...register("img_recurso")}
-                  errorMessage="La portada del recurso es obligatorio"
-                  radius="sm"
-                  size="sm"
-                />
+                  {selectedRecurso?.img_recurso && (
+                    <div className="w-[300px]">
+                      <p className="text-xs font-semibold">
+                        Portada actual del recurso:
+                      </p>
+                      <img
+                        className="w-12 h-12  object-cover rounded-xl"
+                        src={`${process.env.NEXT_PUBLIC_API_URL_UPLOADS}/${selectedRecurso.img_recurso}`}
+                        alt="ps y ai"
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <Input
                   isRequired
