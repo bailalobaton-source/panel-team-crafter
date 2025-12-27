@@ -4,7 +4,6 @@ import {
   TipClase,
 } from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { FormClase } from "@/src/interfaces/clase.interface";
-import { postClase } from "@/src/service/clases.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
 import { handleAxiosError } from "@/utils/errorHandler";
 import {
@@ -44,7 +43,9 @@ export default function ModalNuevaClase({
     try {
       setLoading(true);
 
-      await postClase(data); // <-- ahora se envía como multipart/form-data
+      console.log(data);
+
+      // await postClase(data); // <-- ahora se envía como multipart/form-data
 
       toast.success("La clase se creó correctamente");
       reset();
@@ -145,6 +146,7 @@ export default function ModalNuevaClase({
                     errorMessage="Seleccione una categoría"
                     radius="sm"
                     size="sm"
+                    selectionMode="multiple"
                   >
                     {categorias.map((categoria) => (
                       <SelectItem key={categoria.id}>
@@ -162,6 +164,7 @@ export default function ModalNuevaClase({
                     errorMessage="Seleccione una opción"
                     radius="sm"
                     size="sm"
+                    selectionMode="multiple"
                   >
                     {tips.map((tip) => (
                       <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>

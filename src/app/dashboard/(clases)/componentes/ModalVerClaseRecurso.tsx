@@ -49,8 +49,10 @@ export default function ModalVerClaseRecurso({
                     <h2 className="text-lg font-semibold">
                       {selectedClase.titulo_clase}
                     </h2>
-                    <p className="text-sm text-gray-500">
-                      {selectedClase.categoria_clase.nombre_es}
+                    <p className="text-sm text-gray-500 flex gap-1">
+                      {selectedClase.categorias_id.map((i) => (
+                        <span key={i.id}>{i.categoria_clase.nombre_es} -</span>
+                      ))}
                     </p>
                   </div>
                 </CardHeader>
@@ -59,14 +61,18 @@ export default function ModalVerClaseRecurso({
                   <p className="text-sm text-gray-700">
                     {selectedClase.descripcion_clase}
                   </p>
-                  <section className="mt-2  w-full flex flex-gap gap-4">
+                  <section className="mt-2  w-full flex flex-wrap flex-gap gap-4">
                     <p className="text-sm">
                       <strong>Duración:</strong> {selectedClase.duracion_video}
                     </p>
-                    <p className="text-sm">
+                    <article className="text-sm flex gap-1">
                       <strong>Tutorial:</strong>{" "}
-                      {selectedClase.tip_clase.nombre_es}
-                    </p>
+                      <p className="text-sm text-gray-500 flex gap-1">
+                        {selectedClase.tips_id.map((i) => (
+                          <span key={i.id}>{i.tip_clase.nombre_es} -</span>
+                        ))}
+                      </p>{" "}
+                    </article>
                     <p className="text-sm">
                       <strong>Likes:</strong> {selectedClase.nro_likes} ·{" "}
                       <strong>Reproducciones:</strong>{" "}

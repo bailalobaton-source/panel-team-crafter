@@ -32,6 +32,21 @@ export interface Clase {
   status: "active" | "disabled";
   recurso: Recurso;
   poster_url: string;
+  categorias_id: CategoriaClaseId[];
+  tips_id: TipClaseId[];
+}
+
+export interface CategoriaClaseId {
+  id: number;
+  clase_id: number;
+  categoria_clase_id: number;
+
   categoria_clase: CategoriaClase;
+}
+
+export interface TipClaseId {
+  id: number;
+  clase_id: number;
+  tip_clase_id: number;
   tip_clase: TipClase;
 }

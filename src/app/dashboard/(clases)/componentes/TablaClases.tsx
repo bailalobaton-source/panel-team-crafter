@@ -65,11 +65,15 @@ export default function TablaClases({
               <TableCell className="text-xs">{index + 1}</TableCell>
 
               <TableCell className="text-xs">{clase.titulo_clase}</TableCell>
-              <TableCell className="text-xs">
-                {clase.categoria_clase.nombre_es}
+              <TableCell className="text-xs ">
+                {clase.categorias_id?.map((i) => (
+                  <p key={i.id}>{i?.categoria_clase?.nombre_es || ""}</p>
+                ))}
               </TableCell>
               <TableCell className="text-xs">
-                {clase.tip_clase.nombre_es}
+                {clase.tips_id?.map((i) => (
+                  <p key={i.id}>{i?.tip_clase?.nombre_es || ""}</p>
+                ))}{" "}
               </TableCell>
               <TableCell className="text-xs">
                 <Button

@@ -152,11 +152,12 @@ export default function ModalEditarClase({
                     variant="bordered"
                     {...register("categoria_clase_id")}
                     errorMessage="Seleccione una categoría"
-                    defaultSelectedKeys={[
-                      `${selectedClase.categoria_clase_id}`,
-                    ]}
+                    defaultSelectedKeys={selectedClase.categorias_id.map((i) =>
+                      i.categoria_clase_id.toString()
+                    )}
                     radius="sm"
                     size="sm"
+                    selectionMode="multiple"
                   >
                     {categorias.map((categoria) => (
                       <SelectItem key={categoria.id}>
@@ -173,11 +174,12 @@ export default function ModalEditarClase({
                     variant="bordered"
                     {...register("tutoriales_tips_id")}
                     errorMessage="Seleccione una opción"
-                    defaultSelectedKeys={[
-                      `${selectedClase.tutoriales_tips_id}`,
-                    ]}
+                    defaultSelectedKeys={selectedClase.tips_id.map((i) =>
+                      i.tip_clase_id.toString()
+                    )}
                     radius="sm"
                     size="sm"
+                    selectionMode="multiple"
                   >
                     {tips.map((tip) => (
                       <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>
