@@ -50,7 +50,7 @@ export default function ModalVerClaseRecurso({
                       {selectedClase.titulo_clase}
                     </h2>
                     <p className="text-sm text-gray-500">
-                      {selectedClase.categoria_clase}
+                      {selectedClase.categoria_clase.nombre_es}
                     </p>
                   </div>
                 </CardHeader>
@@ -64,7 +64,8 @@ export default function ModalVerClaseRecurso({
                       <strong>Duración:</strong> {selectedClase.duracion_video}
                     </p>
                     <p className="text-sm">
-                      <strong>Tutorial:</strong> {selectedClase.tutoriales_tips}
+                      <strong>Tutorial:</strong>{" "}
+                      {selectedClase.tip_clase.nombre_es}
                     </p>
                     <p className="text-sm">
                       <strong>Likes:</strong> {selectedClase.nro_likes} ·{" "}

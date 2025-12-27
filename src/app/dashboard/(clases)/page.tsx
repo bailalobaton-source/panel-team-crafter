@@ -11,6 +11,14 @@ import ModalEditarClase from "./componentes/ModalEditarClase";
 import ModalVerClaseRecurso from "./componentes/ModalVerClaseRecurso";
 import ModalEliminarClase from "./componentes/ModalEliminarClase";
 import ModalComentariosClase from "./componentes/ComentariosClase/ModalComentariosClase";
+import {
+  getCategoriaClase,
+  getTipsClase,
+} from "@/src/service/ajustes/categoriaTipClase.service";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 
 export default function Clases() {
   const [openModal, setOpenModal] = useState(false);
@@ -18,6 +26,8 @@ export default function Clases() {
   const [clases, setClases] = useState<Clase[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedClase, setSelectedClase] = useState<Clase | null>(null);
+  const [categorias, setCategorias] = useState<CategoriaClase[]>([]);
+  const [tips, setTips] = useState<TipClase[]>([]);
 
   const gfindClases = useCallback(async () => {
     setLoading(true);
@@ -30,6 +40,35 @@ export default function Clases() {
       setLoading(false);
     }
   }, []);
+
+  const gfindCategorias = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await getCategoriaClase();
+      setCategorias(res);
+    } catch (err) {
+      handleAxiosError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const gfindTips = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await getTipsClase();
+      setTips(res);
+    } catch (err) {
+      handleAxiosError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    gfindCategorias();
+    gfindTips();
+  }, [gfindCategorias, gfindTips]);
 
   useEffect(() => {
     gfindClases();
@@ -60,6 +99,8 @@ export default function Clases() {
         <ModalNuevaClase
           open={openModal}
           onClose={() => setOpenModal(false)}
+          categorias={categorias}
+          tips={tips}
           gfindClases={gfindClases}
         />
       )}
@@ -71,6 +112,8 @@ export default function Clases() {
           onClose={() => setOpenModal(false)}
           selectedClase={selectedClase}
           gfindClases={gfindClases}
+          categorias={categorias}
+          tips={tips}
         />
       )}
 

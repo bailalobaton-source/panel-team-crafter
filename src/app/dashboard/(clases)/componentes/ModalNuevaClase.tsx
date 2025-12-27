@@ -1,4 +1,8 @@
 import Loading from "@/src/components/Loading";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { FormClase } from "@/src/interfaces/clase.interface";
 import { postClase } from "@/src/service/clases.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
@@ -22,25 +26,17 @@ interface Props {
   open: boolean;
   onClose: () => void;
   gfindClases: () => void;
+  categorias: CategoriaClase[];
+  tips: TipClase[];
 }
 
-const categoriasClase = [
-  "Cake Toppers",
-  "Cajitas Temáticas",
-  "Cartonaje",
-  "Tarjetas Invitación",
-  "Proyectos Varios",
-];
-
-const tutorialesTips = [
-  "Tutoriales Silhouette Studio",
-  "Tutoriales Cricut Design",
-  "Tips de Diseño",
-  "Tips de Corte",
-  "Varios/otros",
-];
-
-export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
+export default function ModalNuevaClase({
+  open,
+  onClose,
+  gfindClases,
+  categorias,
+  tips,
+}: Props) {
   const { register, handleSubmit, reset } = useForm<FormClase>();
   const [loading, setLoading] = useState(false);
 
@@ -145,13 +141,15 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                     label="Categoría"
                     labelPlacement="outside"
                     variant="bordered"
-                    {...register("categoria_clase")}
+                    {...register("categoria_clase_id")}
                     errorMessage="Seleccione una categoría"
                     radius="sm"
                     size="sm"
                   >
-                    {categoriasClase.map((categoria) => (
-                      <SelectItem key={categoria}>{categoria}</SelectItem>
+                    {categorias.map((categoria) => (
+                      <SelectItem key={categoria.id}>
+                        {categoria.nombre_es}
+                      </SelectItem>
                     ))}
                   </Select>
                   <Select
@@ -160,13 +158,13 @@ export default function ModalNuevaClase({ open, onClose, gfindClases }: Props) {
                     label="Tutoriales / Tips"
                     labelPlacement="outside"
                     variant="bordered"
-                    {...register("tutoriales_tips")}
+                    {...register("tutoriales_tips_id")}
                     errorMessage="Seleccione una opción"
                     radius="sm"
                     size="sm"
                   >
-                    {tutorialesTips.map((tip) => (
-                      <SelectItem key={tip}>{tip}</SelectItem>
+                    {tips.map((tip) => (
+                      <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>
                     ))}
                   </Select>
                 </div>

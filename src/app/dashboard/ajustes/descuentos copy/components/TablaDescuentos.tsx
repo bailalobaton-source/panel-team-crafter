@@ -1,6 +1,7 @@
 "use client";
 
-import { Clase } from "@/src/interfaces/clase.interface";
+import { Descuento } from "@/src/interfaces/descuento.interface";
+import { formatDate } from "@/utils/formatCreatedAtDate";
 import {
   Table,
   TableBody,
@@ -15,22 +16,22 @@ import { BiPencil } from "react-icons/bi";
 import { BsTrash2 } from "react-icons/bs";
 
 interface Props {
-  clases: Clase[];
+  descuentos: Descuento[];
   setSelectModal: (i: string) => void;
-  setSelectedClase: (s: Clase) => void;
+  setSelectedDescuento: (s: Descuento) => void;
   setOpenModal: (s: boolean) => void;
 }
 
-export default function TablaClases({
-  clases,
+export default function TablaDescuentos({
+  descuentos,
   setSelectModal,
-  setSelectedClase,
+  setSelectedDescuento,
   setOpenModal,
 }: Props) {
   return (
     <div>
       <Table
-        aria-label="Tabla de Clases"
+        aria-label="Tabla de descuentos"
         color="default"
         isStriped
         classNames={{
@@ -45,59 +46,46 @@ export default function TablaClases({
 
           <TableColumn className="text-xs text-stone-800">Título</TableColumn>
           <TableColumn className="text-xs text-stone-800">
-            Categoria
+            Fecha de expiración
           </TableColumn>
           <TableColumn className="text-xs text-stone-800">
-            Tutoriales / Tips
-          </TableColumn>
-
-          <TableColumn className="text-xs text-stone-800">
-            Ver Clase y Recurso
+            Tipo de descuento
           </TableColumn>
           <TableColumn className="text-xs text-stone-800">
-            Comentarios
+            Valor del descuento
+          </TableColumn>
+          <TableColumn className="text-xs text-stone-800">
+            Codigo del descuento
+          </TableColumn>
+          <TableColumn className="text-xs text-stone-800">
+            Descripción del descuento
           </TableColumn>
           <TableColumn className="text-xs text-stone-800">Acciones</TableColumn>
         </TableHeader>
         <TableBody>
-          {clases?.map((clase, index) => (
-            <TableRow key={index}>
+          {descuentos?.map((descuento, index) => (
+            <TableRow key={descuento.id}>
               <TableCell className="text-xs">{index + 1}</TableCell>
 
-              <TableCell className="text-xs">{clase.titulo_clase}</TableCell>
               <TableCell className="text-xs">
-                {clase.categoria_clase.nombre_es}
+                {descuento.titulo_descuento}
               </TableCell>
               <TableCell className="text-xs">
-                {clase.tip_clase.nombre_es}
+                {formatDate(descuento.fecha_expiracion)}
               </TableCell>
               <TableCell className="text-xs">
-                <Button
-                  color="warning"
-                  size="sm"
-                  onPress={() => {
-                    setSelectedClase(clase);
-                    setSelectModal("ver_clase_recurso");
-                    setOpenModal(true);
-                  }}
-                >
-                  ver clase y recurso
-                </Button>
+                {descuento.tipo_descuento}
               </TableCell>
               <TableCell className="text-xs">
-                <Button
-                  className="scale-90"
-                  color="success"
-                  size="sm"
-                  onPress={() => {
-                    setSelectedClase(clase);
-                    setSelectModal("comentarios_clase");
-                    setOpenModal(true);
-                  }}
-                >
-                  Gestionar Comentarios
-                </Button>
+                {descuento.valor_descuento}
               </TableCell>
+              <TableCell className="text-xs">
+                {descuento.codigo_descuento}
+              </TableCell>
+              <TableCell className="text-xs">
+                {descuento.descripcion_descuento}
+              </TableCell>
+
               <TableCell className="h-full">
                 <div className="h-full flex items-center justify-center gap-1">
                   <Tooltip content="Editar">
@@ -106,8 +94,8 @@ export default function TablaClases({
                       size="sm"
                       color="primary"
                       onPress={() => {
-                        setSelectedClase(clase);
-                        setSelectModal("editar_clase");
+                        setSelectedDescuento(descuento);
+                        setSelectModal("editar_notificacion");
                         setOpenModal(true);
                       }}
                     >
@@ -120,8 +108,8 @@ export default function TablaClases({
                       size="sm"
                       color="danger"
                       onPress={() => {
-                        setSelectedClase(clase);
-                        setSelectModal("eliminar_clase");
+                        setSelectedDescuento(descuento);
+                        setSelectModal("eliminar_notificacion");
                         setOpenModal(true);
                       }}
                     >
@@ -134,7 +122,6 @@ export default function TablaClases({
           ))}
         </TableBody>
       </Table>{" "}
-      {/* <VerVideo onClose={onOpenChange} isOpen={isOpen} urlVideo={urlVideo} /> */}
     </div>
   );
 }

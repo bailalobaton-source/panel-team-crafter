@@ -1,3 +1,7 @@
+import {
+  CategoriaClase,
+  TipClase,
+} from "./ajustes/categoriasTipsClase.interface";
 import { Recurso } from "./recurso.interface";
 
 export interface FormClase {
@@ -7,8 +11,8 @@ export interface FormClase {
   titulo_clase_en: string;
   descripcion_clase: string;
   descripcion_clase_en: string;
-  categoria_clase: string;
-  tutoriales_tips: string;
+  categoria_clase_id: string;
+  tutoriales_tips_id: string;
   poster_url: string;
 }
 
@@ -23,9 +27,11 @@ export interface Clase {
   duracion_video: string;
   nro_reproducciones: number;
   nro_likes: number;
-  categoria_clase: string;
-  tutoriales_tips: string;
+  categoria_clase_id: string;
+  tutoriales_tips_id: string;
   status: "active" | "disabled";
   recurso: Recurso;
   poster_url: string;
+  categoria_clase: CategoriaClase;
+  tip_clase: TipClase;
 }

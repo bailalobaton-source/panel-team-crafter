@@ -1,4 +1,8 @@
 import Loading from "@/src/components/Loading";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { Clase, FormClase } from "@/src/interfaces/clase.interface";
 import { updateClase } from "@/src/service/clases.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
@@ -23,29 +27,17 @@ interface Props {
   onClose: () => void;
   selectedClase: Clase;
   gfindClases: () => void;
+  categorias: CategoriaClase[];
+  tips: TipClase[];
 }
-
-const categoriasClase = [
-  "Cake Toppers",
-  "Cajitas Temáticas",
-  "Cartonaje",
-  "Tarjetas Invitación",
-  "Proyectos Varios",
-];
-
-const tutorialesTips = [
-  "Tutoriales Silhouette Studio",
-  "Tutoriales Cricut Design",
-  "Tips de Diseño",
-  "Tips de Corte",
-  "Varios/otros",
-];
 
 export default function ModalEditarClase({
   open,
   onClose,
   selectedClase,
   gfindClases,
+  categorias,
+  tips,
 }: Props) {
   const { register, handleSubmit } = useForm<FormClase>();
   const [loading, setLoading] = useState(false);
@@ -157,14 +149,19 @@ export default function ModalEditarClase({
                     classNames={selectClassNames}
                     label="Categoría"
                     labelPlacement="outside"
-                    {...register("categoria_clase")}
+                    variant="bordered"
+                    {...register("categoria_clase_id")}
                     errorMessage="Seleccione una categoría"
-                    defaultSelectedKeys={[selectedClase.categoria_clase]}
+                    defaultSelectedKeys={[
+                      `${selectedClase.categoria_clase_id}`,
+                    ]}
                     radius="sm"
                     size="sm"
                   >
-                    {categoriasClase.map((categoria) => (
-                      <SelectItem key={categoria}>{categoria}</SelectItem>
+                    {categorias.map((categoria) => (
+                      <SelectItem key={categoria.id}>
+                        {categoria.nombre_es}
+                      </SelectItem>
                     ))}
                   </Select>
 
@@ -173,14 +170,17 @@ export default function ModalEditarClase({
                     classNames={selectClassNames}
                     label="Tutoriales / Tips"
                     labelPlacement="outside"
-                    {...register("tutoriales_tips")}
+                    variant="bordered"
+                    {...register("tutoriales_tips_id")}
                     errorMessage="Seleccione una opción"
-                    defaultSelectedKeys={[selectedClase.tutoriales_tips]}
+                    defaultSelectedKeys={[
+                      `${selectedClase.tutoriales_tips_id}`,
+                    ]}
                     radius="sm"
                     size="sm"
                   >
-                    {tutorialesTips.map((tip) => (
-                      <SelectItem key={tip}>{tip}</SelectItem>
+                    {tips.map((tip) => (
+                      <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>
                     ))}
                   </Select>
                 </div>
