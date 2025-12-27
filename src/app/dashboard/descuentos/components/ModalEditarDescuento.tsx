@@ -174,6 +174,43 @@ export default function ModalEditarDescuento({
                     defaultValue={descuento?.descripcion_descuento_en}
                   />
                 </div>
+                <div className="flex gap-2">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Texto 2"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("texto_2_es")}
+                    radius="sm"
+                    size="sm"
+                    defaultValue={descuento?.texto_2_es}
+                  />
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Texto 2 (en inglés)"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("texto_2_en")}
+                    radius="sm"
+                    size="sm"
+                    defaultValue={descuento?.texto_2_en}
+                  />
+                </div>
+                <Input
+                  classNames={inputClassNames}
+                  label="Link del descuento"
+                  placeholder="..."
+                  variant="bordered"
+                  labelPlacement="outside"
+                  {...register("enlace_descuento")}
+                  radius="sm"
+                  size="sm"
+                  defaultValue={descuento?.enlace_descuento}
+                />
 
                 <div className="flex justify-end gap-3 mt-4">
                   <Button color="danger" type="button" onPress={onClose}>

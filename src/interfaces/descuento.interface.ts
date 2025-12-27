@@ -8,4 +8,7 @@ export interface Descuento {
   valor_descuento: string;
   fecha_expiracion: string;
   codigo_descuento: string;
+  texto_2_es: string;
+  texto_2_en: string;
+  enlace_descuento: string;
 }

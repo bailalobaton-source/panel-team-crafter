@@ -163,12 +163,51 @@ export default function ModalNuevoDescuento({
                     size="sm"
                   />
                 </div>
+                <div className="flex gap-2">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Texto 2"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("texto_2_es")}
+                    radius="sm"
+                    size="sm"
+                  />
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Texto 2 (en inglés)"
+                    placeholder="..."
+                    variant="bordered"
+                    labelPlacement="outside"
+                    {...register("texto_2_en")}
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
+                <Input
+                  classNames={inputClassNames}
+                  label="Link del descuento"
+                  placeholder="..."
+                  variant="bordered"
+                  labelPlacement="outside"
+                  {...register("enlace_descuento")}
+                  radius="sm"
+                  size="sm"
+                />
 
                 <div className="flex justify-end gap-3 mt-4">
-                  <Button color="danger" type="button" onPress={onClose}>
+                  <Button
+                    color="danger"
+                    type="button"
+                    onPress={onClose}
+                    size="sm"
+                  >
                     Cancelar
                   </Button>
-                  <Button color="primary" type="submit">
+                  <Button color="primary" type="submit" size="sm">
                     Guardar
                   </Button>
                 </div>

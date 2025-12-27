@@ -113,19 +113,6 @@ export default function Header() {
                     Categorias y Tips
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/dashboard/ajustes/seguridad"
-                    className={`flex items-center gap-3 p-4 rounded-md  text-neutral-800
-                ${
-                  pathname === "/dashboard/ajustes/seguridad"
-                    ? "bg-pink-200 font-semibold"
-                    : "bg-white"
-                }`}
-                  >
-                    Seguridad
-                  </Link>
-                </li>
               </ul>
             )}
           </li>
