@@ -54,6 +54,9 @@ export default function TablaClases({
           <TableColumn className="text-xs text-stone-800">
             Ver Clase y Recurso
           </TableColumn>
+          <TableColumn className="text-xs text-stone-800">
+            Comentarios
+          </TableColumn>
           <TableColumn className="text-xs text-stone-800">Acciones</TableColumn>
         </TableHeader>
         <TableBody>
@@ -75,6 +78,20 @@ export default function TablaClases({
                   }}
                 >
                   ver clase y recurso
+                </Button>
+              </TableCell>
+              <TableCell className="text-xs">
+                <Button
+                  className="scale-90"
+                  color="success"
+                  size="sm"
+                  onPress={() => {
+                    setSelectedClase(clase);
+                    setSelectModal("comentarios_clase");
+                    setOpenModal(true);
+                  }}
+                >
+                  Gestionar Comentarios
                 </Button>
               </TableCell>
               <TableCell className="h-full">

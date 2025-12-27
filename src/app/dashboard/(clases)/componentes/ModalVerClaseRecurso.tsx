@@ -59,17 +59,19 @@ export default function ModalVerClaseRecurso({
                   <p className="text-sm text-gray-700">
                     {selectedClase.descripcion_clase}
                   </p>
-                  <p className="mt-2 text-sm">
-                    <strong>Duración:</strong> {selectedClase.duracion_video}
-                  </p>
-                  <p className="text-sm">
-                    <strong>Tutorial:</strong> {selectedClase.tutoriales_tips}
-                  </p>
-                  <p className="text-sm">
-                    <strong>Likes:</strong> {selectedClase.nro_likes} ·{" "}
-                    <strong>Reproducciones:</strong>{" "}
-                    {selectedClase.nro_reproducciones}
-                  </p>
+                  <section className="mt-2  w-full flex flex-gap gap-4">
+                    <p className="text-sm">
+                      <strong>Duración:</strong> {selectedClase.duracion_video}
+                    </p>
+                    <p className="text-sm">
+                      <strong>Tutorial:</strong> {selectedClase.tutoriales_tips}
+                    </p>
+                    <p className="text-sm">
+                      <strong>Likes:</strong> {selectedClase.nro_likes} ·{" "}
+                      <strong>Reproducciones:</strong>{" "}
+                      {selectedClase.nro_reproducciones}
+                    </p>
+                  </section>
 
                   {/* Video */}
                   <div className="mt-4 w-60">

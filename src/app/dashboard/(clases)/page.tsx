@@ -10,6 +10,7 @@ import ModalNuevaClase from "./componentes/ModalNuevaClase";
 import ModalEditarClase from "./componentes/ModalEditarClase";
 import ModalVerClaseRecurso from "./componentes/ModalVerClaseRecurso";
 import ModalEliminarClase from "./componentes/ModalEliminarClase";
+import ModalComentariosClase from "./componentes/ComentariosClase/ModalComentariosClase";
 
 export default function Clases() {
   const [openModal, setOpenModal] = useState(false);
@@ -82,6 +83,14 @@ export default function Clases() {
         />
       )}
 
+      {selectModal === "comentarios_clase" && selectedClase && (
+        <ModalComentariosClase
+          key={selectedClase.id}
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          selectedClase={selectedClase}
+        />
+      )}
       {selectModal === "eliminar_clase" && selectedClase && (
         <ModalEliminarClase
           key={selectedClase.id}

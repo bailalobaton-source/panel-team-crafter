@@ -4,6 +4,7 @@ import { removeToken } from "@/utils/authUtils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BsFillPostcardFill } from "react-icons/bs";
 import { FaDoorOpen, FaTicketAlt, FaVideo } from "react-icons/fa";
 import { IoMdNotifications } from "react-icons/io";
 import { PiFlagBannerFill } from "react-icons/pi";
@@ -24,6 +25,11 @@ const menuItems = [
     name: "Notificaciones",
     href: "/dashboard/notificaciones",
     icon: <IoMdNotifications className="text-2xl" />,
+  },
+  {
+    name: "Foros",
+    href: "/dashboard/foros",
+    icon: <BsFillPostcardFill className="text-2xl" />,
   },
   {
     name: "Descuento",
