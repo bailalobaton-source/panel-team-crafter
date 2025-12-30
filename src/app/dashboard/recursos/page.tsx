@@ -12,6 +12,14 @@ import { Clase } from "@/src/interfaces/clase.interface";
 import { getClases } from "@/src/service/clases.service";
 import ModalEliminarRecurso from "./components/ModalEliminarRecurso";
 import ModalEditarRecurso from "./components/ModalEditarRecurso";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
+import {
+  getCategoriaRecurso,
+  getTiposRecurso,
+} from "@/src/service/ajustes/categoriaTiposRecurso.service";
 
 export default function RecursosPage() {
   const [openModal, setOpenModal] = useState(false);
@@ -20,6 +28,8 @@ export default function RecursosPage() {
   const [loading, setLoading] = useState(false);
   const [clases, setClases] = useState<Clase[]>([]);
   const [selectedRecurso, setSelectedRecurso] = useState<Recurso | null>(null);
+  const [categorias, setCategorias] = useState<CategoriaClase[]>([]);
+  const [tips, setTips] = useState<TipClase[]>([]);
 
   const gfindRecursos = useCallback(async () => {
     setLoading(true);
@@ -49,11 +59,43 @@ export default function RecursosPage() {
     gfindClases();
   }, [gfindRecursos, gfindClases]);
 
+  const gfindCategorias = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await getCategoriaRecurso();
+      setCategorias(res);
+    } catch (err) {
+      handleAxiosError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const gfindTips = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await getTiposRecurso();
+      setTips(res);
+    } catch (err) {
+      handleAxiosError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    gfindCategorias();
+    gfindTips();
+  }, [gfindCategorias, gfindTips]);
+
   const handleNew = () => {
     setSelectedRecurso(null);
     setOpenModal(true);
     setSelectModal("agregar_recurso");
   };
+
+  console.log(recursos);
+
   return (
     <div className="w-full p-4 overflow-x-hidden overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
@@ -76,17 +118,10 @@ export default function RecursosPage() {
           onClose={() => setOpenModal(false)}
           gfindClases={gfindRecursos}
           clases={clases}
+          categorias={categorias}
+          tips={tips}
         />
       )}
-      {/* {selectModal === "editar" && selectedRecurso && (
-        <ModalEditarRecurso
-          key={selectedRecurso.id}
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          gfindRecursos={gfindRecursos}
-          selectedRecurso={selectedRecurso}
-        />
-      )} */}
       {selectModal === "eliminar" && selectedRecurso && (
         <ModalEliminarRecurso
           key={selectedRecurso.id}
@@ -104,6 +139,8 @@ export default function RecursosPage() {
           gfindClases={gfindRecursos}
           selectedRecurso={selectedRecurso}
           clases={clases}
+          categorias={categorias}
+          tips={tips}
         />
       )}
     </div>

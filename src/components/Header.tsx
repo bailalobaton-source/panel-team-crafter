@@ -105,12 +105,25 @@ export default function Header() {
                     href="/dashboard/ajustes/categorias-tips"
                     className={`flex items-center gap-3 p-4 rounded-md  text-neutral-800
                 ${
-                  pathname === "/dashboard/ajustes/perfil"
+                  pathname === "/dashboard/ajustes/categorias-tips"
                     ? "bg-pink-200 font-semibold"
                     : "bg-white"
                 }`}
                   >
-                    Categorias y Tips
+                    Categorias y Tips Clase
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/dashboard/ajustes/categorias-tipos-recursos"
+                    className={`flex items-center gap-3 p-4 rounded-md  text-neutral-800
+                ${
+                  pathname === "/dashboard/ajustes/categorias-tipos-recursos"
+                    ? "bg-pink-200 font-semibold"
+                    : "bg-white"
+                }`}
+                  >
+                    Categorias y Tipos Recursos
                   </Link>
                 </li>
               </ul>

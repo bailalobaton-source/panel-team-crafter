@@ -1,6 +1,6 @@
 import Loading from "@/src/components/Loading";
-import { Descuento } from "@/src/interfaces/descuento.interface";
-import { deleteDescuento } from "@/src/service/descuento.service";
+import { TipClase } from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
+import { deleteTiposRecurso } from "@/src/service/ajustes/categoriaTiposRecurso.service";
 import { handleAxiosError } from "@/utils/errorHandler";
 import {
   Modal,
@@ -16,15 +16,15 @@ import { toast } from "sonner";
 interface Props {
   open: boolean;
   onClose: () => void;
-  descuento: Descuento;
-  gfindDescuentos: () => void;
+  gfindTips: () => void;
+  selectedTip: TipClase;
 }
 
-export default function ModalEliminarDescuento({
+export default function ModalEliminarTipRecurso({
   open,
   onClose,
-  descuento,
-  gfindDescuentos,
+  selectedTip,
+  gfindTips,
 }: Props) {
   const [loading, setLoading] = useState(false);
 
@@ -32,10 +32,10 @@ export default function ModalEliminarDescuento({
     try {
       setLoading(true);
 
-      await deleteDescuento(descuento.id);
+      await deleteTiposRecurso(selectedTip.id);
 
-      toast.success("La notificacion  fue eliminado correctamente");
-      gfindDescuentos();
+      toast.success("El tip  fue eliminado correctamente");
+      gfindTips();
       onClose();
     } catch (err) {
       handleAxiosError(err);
@@ -51,21 +51,21 @@ export default function ModalEliminarDescuento({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="pb-0">
-              Eliminar Notifación: {descuento.tipo_descuento}
+            <ModalHeader className="pb-0 text-md">
+              Eliminar tip {selectedTip.nombre_es}
             </ModalHeader>
             <ModalBody>
               <p>
-                ¿Está seguro de que desea eliminar el descuento{" "}
-                <strong>{descuento.tipo_descuento}</strong>? Esta acción no se
+                ¿Está seguro de que desea eliminar el tip{" "}
+                <strong>{selectedTip.nombre_es}</strong>? Esta acción no se
                 puede deshacer.
               </p>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onPress={onClose}>
+              <Button color="primary" onPress={onClose} size="sm">
                 Cancelar
               </Button>
-              <Button color="danger" onPress={handleDelete}>
+              <Button color="danger" onPress={handleDelete} size="sm">
                 Eliminar
               </Button>
             </ModalFooter>

@@ -1,4 +1,8 @@
 import Loading from "@/src/components/Loading";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { Clase } from "@/src/interfaces/clase.interface";
 import { FormRecurso, Recurso } from "@/src/interfaces/recurso.interface";
 import { updateRecurso } from "@/src/service/recursos.service";
@@ -26,17 +30,9 @@ interface Props {
   gfindClases: () => void;
   selectedRecurso: Recurso | null; // 👈 recurso seleccionado
   clases: Clase[];
+  categorias: CategoriaClase[];
+  tips: TipClase[];
 }
-
-const categoriasRecurso = [
-  "Cake Toppers",
-  "Cajitas Temáticas",
-  "Cartonaje",
-  "Tarjetas Invitación",
-  "Proyectos Varios",
-];
-
-const tiposRecurso = ["Exclusivos", "Adicionales"];
 
 export default function ModalEditarRecurso({
   open,
@@ -44,6 +40,8 @@ export default function ModalEditarRecurso({
   gfindClases,
   selectedRecurso,
   clases,
+  categorias,
+  tips,
 }: Props) {
   const { register, handleSubmit, reset, setValue } = useForm<FormRecurso>();
   const [loading, setLoading] = useState(false);
@@ -54,8 +52,6 @@ export default function ModalEditarRecurso({
       setValue("nombre_recurso", selectedRecurso.nombre_recurso);
       setValue("nombre_recurso_en", selectedRecurso.nombre_recurso_en);
       setValue("fecha_caducidad", selectedRecurso.fecha_caducidad);
-      setValue("tipo_recurso", selectedRecurso.tipo_recurso);
-      setValue("categoria_recurso", selectedRecurso.categoria_recurso);
       setValue(
         "clase_id",
         String(
@@ -78,6 +74,9 @@ export default function ModalEditarRecurso({
       formData.append("fecha_caducidad", data.fecha_caducidad);
       formData.append("tipo_recurso", data.tipo_recurso);
       formData.append("categoria_recurso", data.categoria_recurso);
+      formData.append("tipo_recurso_id", data.tipo_recurso_id);
+      formData.append("categoria_recurso_id", data.categoria_recurso_id);
+
       if (data.clase_id.length > 0) {
         formData.append("clase_id", data.clase_id);
       }
@@ -230,37 +229,48 @@ export default function ModalEditarRecurso({
                   size="sm"
                 />
 
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Tipo Recurso"
-                  labelPlacement="outside"
-                  variant="bordered"
-                  {...register("tipo_recurso")}
-                  errorMessage="Seleccione una categoría"
-                  radius="sm"
-                  size="sm"
-                >
-                  {tiposRecurso.map((tipo) => (
-                    <SelectItem key={tipo}>{tipo}</SelectItem>
-                  ))}
-                </Select>
-
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Categoria"
-                  labelPlacement="outside"
-                  variant="bordered"
-                  {...register("categoria_recurso")}
-                  errorMessage="Seleccione una opción"
-                  radius="sm"
-                  size="sm"
-                >
-                  {categoriasRecurso.map((cat) => (
-                    <SelectItem key={cat}>{cat}</SelectItem>
-                  ))}
-                </Select>
+                <div className="flex gap-2">
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Categoría"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("categoria_recurso_id")}
+                    defaultSelectedKeys={selectedRecurso?.categorias_ids.map(
+                      (i) => i.categoria_recurso_id.toString()
+                    )}
+                    errorMessage="Seleccione una categoría"
+                    radius="sm"
+                    size="sm"
+                    selectionMode="multiple"
+                  >
+                    {categorias.map((categoria) => (
+                      <SelectItem key={categoria.id}>
+                        {categoria.nombre_es}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Tutoriales / Tips"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("tipo_recurso_id")}
+                    errorMessage="Seleccione una opción"
+                    defaultSelectedKeys={selectedRecurso?.tipos_ids.map((i) =>
+                      i.tipo_recurso_id.toString()
+                    )}
+                    radius="sm"
+                    size="sm"
+                    selectionMode="multiple"
+                  >
+                    {tips.map((tip) => (
+                      <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>
+                    ))}
+                  </Select>
+                </div>
 
                 <div className="flex justify-end gap-3 mt-4">
                   <Button color="danger" type="button" onPress={onClose}>

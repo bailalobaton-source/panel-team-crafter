@@ -73,7 +73,7 @@ export default function TablaClases({
               <TableCell className="text-xs">
                 {clase.tips_id?.map((i) => (
                   <p key={i.id}>{i?.tip_clase?.nombre_es || ""}</p>
-                ))}{" "}
+                ))}
               </TableCell>
               <TableCell className="text-xs">
                 <Button

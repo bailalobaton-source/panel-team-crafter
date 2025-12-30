@@ -3,23 +3,22 @@ import Loading from "@/src/components/Loading";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { useCallback, useEffect, useState } from "react";
 import { FaList } from "react-icons/fa";
-
 import {
   CategoriaClase,
   TipClase,
 } from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import {
-  getCategoriaClase,
-  getTipsClase,
-} from "@/src/service/ajustes/categoriaTipClase.service";
-import TablaCategoriaClase from "./components/TablaCategoriaClase";
-import TablaTipClase from "./components/TablaTipClase";
-import ModalCrearCategoriaClase from "./components/crudCategoria/ModalCrearCategoriaClase";
-import ModalEditarCategoriaClase from "./components/crudCategoria/ModalEditarCategoriaClase";
-import ModalEliminarCategoriaClase from "./components/crudCategoria/ModalEliminarCategoriaClase";
-import ModalCrearTipClase from "./components/crudTIps/ModalCrearTipClase";
-import ModalEditarTipClase from "./components/crudTIps/ModalEditarTipClase";
-import ModalEliminarTipClase from "./components/crudTIps/ModalEliminarTipClase";
+  getCategoriaRecurso,
+  getTiposRecurso,
+} from "@/src/service/ajustes/categoriaTiposRecurso.service";
+import TablaCategoriaRecurso from "./components/TablaCategoriaRecurso";
+import TablaTipRecurso from "./components/TablaTipRecurso";
+import ModalCrearCategoriaRecurso from "./components/crudCategoria/ModalCrearCategoriaRecurso";
+import ModalEditarCategoriaRecurso from "./components/crudCategoria/ModalEditarCategoriaRecurso";
+import ModalEliminarCategoriaRecurso from "./components/crudCategoria/ModalEliminarCategoriaRecurso";
+import ModalCrearTipRecurso from "./components/crudTIps/ModalCrearTipRecurso";
+import ModalEditarTipRecurso from "./components/crudTIps/ModalEditarTipRecurso";
+import ModalEliminarTipRecurso from "./components/crudTIps/ModalEliminarTipRecurso";
 
 export default function CategoriasTips() {
   const [openModal, setOpenModal] = useState(false);
@@ -35,7 +34,7 @@ export default function CategoriasTips() {
   const gfindCategorias = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getCategoriaClase();
+      const res = await getCategoriaRecurso();
       setCategorias(res);
     } catch (err) {
       handleAxiosError(err);
@@ -47,7 +46,7 @@ export default function CategoriasTips() {
   const gfindTips = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await getTipsClase();
+      const res = await getTiposRecurso();
       setTips(res);
     } catch (err) {
       handleAxiosError(err);
@@ -66,18 +65,18 @@ export default function CategoriasTips() {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <FaList className="text-xl" />
-          <h2 className="text-xl font-bold">Categoria y Tips de Clases</h2>
+          <h2 className="text-xl font-bold">Categoria y Tipos de Recurso</h2>
         </div>
       </div>
       {loading && <Loading />}{" "}
       <section className="w-full flex gap-6 ">
-        <TablaCategoriaClase
+        <TablaCategoriaRecurso
           categorias={categorias}
           setSelectModal={setSelectModal}
           setSelectedCategoria={setSelectedCategoria}
           setOpenModal={setOpenModal}
         />
-        <TablaTipClase
+        <TablaTipRecurso
           tips={tips}
           setSelectModal={setSelectModal}
           setSelectedTip={setSelectedTip}
@@ -85,14 +84,14 @@ export default function CategoriasTips() {
         />
       </section>
       {selectModal === "crear_categoria" && (
-        <ModalCrearCategoriaClase
+        <ModalCrearCategoriaRecurso
           open={openModal}
           onClose={() => setOpenModal(false)}
           gfindCategorias={gfindCategorias}
         />
       )}
       {selectModal === "editar_categoria" && selectedCategoria && (
-        <ModalEditarCategoriaClase
+        <ModalEditarCategoriaRecurso
           key={selectedCategoria.id}
           selectedCategoria={selectedCategoria}
           open={openModal}
@@ -101,7 +100,7 @@ export default function CategoriasTips() {
         />
       )}
       {selectModal === "eliminar_categoria" && selectedCategoria && (
-        <ModalEliminarCategoriaClase
+        <ModalEliminarCategoriaRecurso
           key={selectedCategoria.id}
           selectedCategoria={selectedCategoria}
           open={openModal}
@@ -111,14 +110,14 @@ export default function CategoriasTips() {
       )}
       {/* tips */}
       {selectModal === "crear_tip" && (
-        <ModalCrearTipClase
+        <ModalCrearTipRecurso
           open={openModal}
           onClose={() => setOpenModal(false)}
           gfindTips={gfindTips}
         />
       )}
       {selectModal === "editar_tip" && selectedTip && (
-        <ModalEditarTipClase
+        <ModalEditarTipRecurso
           key={selectedTip.id}
           selectedTip={selectedTip}
           open={openModal}
@@ -127,7 +126,7 @@ export default function CategoriasTips() {
         />
       )}
       {selectModal === "eliminar_tip" && selectedTip && (
-        <ModalEliminarTipClase
+        <ModalEliminarTipRecurso
           key={selectedTip.id}
           selectedTip={selectedTip}
           open={openModal}
@@ -135,30 +134,6 @@ export default function CategoriasTips() {
           gfindTips={gfindTips}
         />
       )}
-      {/* {selectModal === "nuevo_descuento" && (
-        <ModalNuevoDescuento
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          gfindDescuentos={gfindDescuentos}
-        />
-      )}
-      {selectModal === "editar_notificacion" && selectedCategoria && (
-        <ModalEditarDescuento
-          key={selectedCategoria.id}
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          gfindDescuentos={gfindDescuentos}
-          descuento={selectedCategoria}
-        />
-      )}
-      {selectModal === "eliminar_notificacion" && selectedCategoria && (
-        <ModalEliminarDescuento
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          gfindDescuentos={gfindDescuentos}
-          descuento={selectedCategoria}
-        />
-      )} */}
     </div>
   );
 }

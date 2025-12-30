@@ -43,8 +43,6 @@ export default function ModalNuevaClase({
     try {
       setLoading(true);
 
-      console.log(data);
-
       // await postClase(data); // <-- ahora se envía como multipart/form-data
 
       toast.success("La clase se creó correctamente");

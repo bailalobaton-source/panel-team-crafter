@@ -90,9 +90,20 @@ export default function TablaRecursos({
                 {recurso.clase?.titulo_clase || "-"}
               </TableCell>
               <TableCell className="text-xs">
-                {recurso.categoria_recurso}
+                {recurso.categorias_ids?.map((i) => (
+                  <p className="text-nowrap" key={i.id}>
+                    {i?.categoria_recurso?.nombre_es || ""}
+                  </p>
+                ))}
               </TableCell>
-              <TableCell className="text-xs">{recurso.tipo_recurso}</TableCell>
+              <TableCell className="text-xs">
+                {" "}
+                {recurso.tipos_ids?.map((i) => (
+                  <p className="text-nowrap" key={i.id}>
+                    {i?.tipo_recurso?.nombre_es || ""}
+                  </p>
+                ))}
+              </TableCell>
               <TableCell className="text-xs">
                 {formatDate(recurso.fecha_caducidad)}
               </TableCell>

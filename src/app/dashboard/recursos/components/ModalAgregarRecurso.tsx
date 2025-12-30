@@ -1,4 +1,8 @@
 import Loading from "@/src/components/Loading";
+import {
+  CategoriaClase,
+  TipClase,
+} from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { Clase } from "@/src/interfaces/clase.interface";
 import { FormRecurso } from "@/src/interfaces/recurso.interface";
 import { postRecursoLibre } from "@/src/service/recursos.service";
@@ -24,6 +28,8 @@ interface Props {
   gfindClases: () => void;
   selectedClase?: Clase;
   clases: Clase[];
+  categorias: CategoriaClase[];
+  tips: TipClase[];
 }
 
 const categoriasRecurso = [
@@ -41,6 +47,8 @@ export default function ModalAgregarRecurso({
   onClose,
   gfindClases,
   clases,
+  categorias,
+  tips,
 }: Props) {
   const { register, handleSubmit, reset } = useForm<FormRecurso>();
   const [loading, setLoading] = useState(false);
@@ -53,9 +61,10 @@ export default function ModalAgregarRecurso({
       formData.append("nombre_recurso", data.nombre_recurso);
       formData.append("nombre_recurso_en", data.nombre_recurso_en);
       formData.append("fecha_caducidad", data.fecha_caducidad);
-      formData.append("tipo_recurso", data.tipo_recurso);
-      formData.append("categoria_recurso", data.categoria_recurso);
+      formData.append("tipo_recurso_id", data.tipo_recurso_id);
+      formData.append("categoria_recurso_id", data.categoria_recurso_id);
       formData.append("link_recurso", data.link_recurso);
+
       if (data.clase_id) {
         formData.append("clase_id", data.clase_id);
       }
@@ -185,37 +194,42 @@ export default function ModalAgregarRecurso({
                   size="sm"
                 />
 
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Tipo Recurso"
-                  labelPlacement="outside"
-                  variant="bordered"
-                  {...register("tipo_recurso")}
-                  errorMessage="Seleccione una categoría"
-                  radius="sm"
-                  size="sm"
-                >
-                  {tiposRecurso.map((tipo) => (
-                    <SelectItem key={tipo}>{tipo}</SelectItem>
-                  ))}
-                </Select>
-
-                <Select
-                  isRequired
-                  classNames={selectClassNames}
-                  label="Categoria"
-                  labelPlacement="outside"
-                  variant="bordered"
-                  {...register("categoria_recurso")}
-                  errorMessage="Seleccione una opción"
-                  radius="sm"
-                  size="sm"
-                >
-                  {categoriasRecurso.map((cat) => (
-                    <SelectItem key={cat}>{cat}</SelectItem>
-                  ))}
-                </Select>
+                <div className="flex gap-2">
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Categoría"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("categoria_recurso_id")}
+                    errorMessage="Seleccione una categoría"
+                    radius="sm"
+                    size="sm"
+                    selectionMode="multiple"
+                  >
+                    {categorias.map((categoria) => (
+                      <SelectItem key={categoria.id}>
+                        {categoria.nombre_es}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  <Select
+                    isRequired
+                    classNames={selectClassNames}
+                    label="Tutoriales / Tips"
+                    labelPlacement="outside"
+                    variant="bordered"
+                    {...register("tipo_recurso_id")}
+                    errorMessage="Seleccione una opción"
+                    radius="sm"
+                    size="sm"
+                    selectionMode="multiple"
+                  >
+                    {tips.map((tip) => (
+                      <SelectItem key={tip.id}>{tip.nombre_es}</SelectItem>
+                    ))}
+                  </Select>
+                </div>
 
                 <div className="flex justify-end gap-3 mt-4">
                   <Button color="danger" type="button" onPress={onClose}>
