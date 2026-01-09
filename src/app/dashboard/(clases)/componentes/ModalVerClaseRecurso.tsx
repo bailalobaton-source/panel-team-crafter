@@ -51,7 +51,9 @@ export default function ModalVerClaseRecurso({
                     </h2>
                     <p className="text-sm text-gray-500 flex gap-1">
                       {selectedClase.categorias_id.map((i) => (
-                        <span key={i.id}>{i.categoria_clase.nombre_es} -</span>
+                        <span key={i.id}>
+                          {i?.categoria_clase?.nombre_es || ""} -
+                        </span>
                       ))}
                     </p>
                   </div>
@@ -68,8 +70,10 @@ export default function ModalVerClaseRecurso({
                     <article className="text-sm flex gap-1">
                       <strong>Tutorial:</strong>{" "}
                       <p className="text-sm text-gray-500 flex gap-1">
-                        {selectedClase.tips_id.map((i) => (
-                          <span key={i.id}>{i.tip_clase.nombre_es} -</span>
+                        {selectedClase?.tips_id?.map((i) => (
+                          <span key={i.id}>
+                            {i?.tip_clase?.nombre_es || ""} -
+                          </span>
                         ))}
                       </p>{" "}
                     </article>
@@ -94,10 +98,7 @@ export default function ModalVerClaseRecurso({
                       <p className="text-sm text-gray-600">
                         {selectedClase.recurso.nombre_recurso}
                       </p>
-                      <p className="text-sm text-gray-600">
-                        Categoría: {selectedClase.recurso.categoria_recurso} ·
-                        Tipo: {selectedClase.recurso.tipo_recurso}
-                      </p>
+
                       <p className="text-sm text-gray-600">
                         Fecha de caducidad:{" "}
                         {selectedClase.recurso.fecha_caducidad} ·
