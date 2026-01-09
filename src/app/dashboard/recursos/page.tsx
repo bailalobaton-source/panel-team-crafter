@@ -94,8 +94,6 @@ export default function RecursosPage() {
     setSelectModal("agregar_recurso");
   };
 
-  console.log(recursos);
-
   return (
     <div className="w-full p-4 overflow-x-hidden overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
