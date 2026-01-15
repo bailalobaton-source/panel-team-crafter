@@ -4,6 +4,7 @@ import {
   TipClase,
 } from "@/src/interfaces/ajustes/categoriasTipsClase.interface";
 import { FormClase } from "@/src/interfaces/clase.interface";
+import { postClase } from "@/src/service/clases.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
 import { handleAxiosError } from "@/utils/errorHandler";
 import {
@@ -43,7 +44,7 @@ export default function ModalNuevaClase({
     try {
       setLoading(true);
 
-      // await postClase(data); // <-- ahora se envía como multipart/form-data
+      await postClase(data); // <-- ahora se envía como multipart/form-data
 
       toast.success("La clase se creó correctamente");
       reset();
