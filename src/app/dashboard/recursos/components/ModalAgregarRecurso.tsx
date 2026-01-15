@@ -26,26 +26,18 @@ interface Props {
   open: boolean;
   onClose: () => void;
   gfindClases: () => void;
+  gfindRecursos: () => void;
   selectedClase?: Clase;
   clases: Clase[];
   categorias: CategoriaClase[];
   tips: TipClase[];
 }
 
-const categoriasRecurso = [
-  "Cake Toppers",
-  "Cajitas Temáticas",
-  "Cartonaje",
-  "Tarjetas Invitación",
-  "Proyectos Varios",
-];
-
-const tiposRecurso = ["Exclusivos", "Adicionales"];
-
 export default function ModalAgregarRecurso({
   open,
   onClose,
   gfindClases,
+  gfindRecursos,
   clases,
   categorias,
   tips,
@@ -83,6 +75,7 @@ export default function ModalAgregarRecurso({
       toast.success("El recurso se creo  correctamente");
       reset();
       gfindClases();
+      gfindRecursos();
       onClose();
     } catch (err) {
       handleAxiosError(err);
