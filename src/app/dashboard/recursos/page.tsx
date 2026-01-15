@@ -114,7 +114,8 @@ export default function RecursosPage() {
         <ModalAgregarRecurso
           open={openModal}
           onClose={() => setOpenModal(false)}
-          gfindClases={gfindRecursos}
+          gfindRecursos={gfindRecursos}
+          gfindClases={gfindClases}
           clases={clases}
           categorias={categorias}
           tips={tips}
