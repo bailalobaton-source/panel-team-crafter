@@ -26,3 +26,13 @@ export interface DatosCliente {
   registerDate: string; // "2025-09-04 01:07:49"
   status: number; // 1
 }
+
+export interface UsersAnalyticsByMonth {
+  month: string;
+  total: number;
+}
+
+export interface AnalyticsResponse {
+  year: number;
+  data: UsersAnalyticsByMonth[];
+}

@@ -9,15 +9,20 @@ import { BiChevronDown } from "react-icons/bi";
 
 import { BsFillPostcardFill } from "react-icons/bs";
 import { FaDoorOpen, FaTicketAlt, FaVideo } from "react-icons/fa";
-import { IoMdNotifications } from "react-icons/io";
+import { IoIosHome, IoMdNotifications } from "react-icons/io";
 import { IoSettings } from "react-icons/io5";
 import { PiFlagBannerFill } from "react-icons/pi";
 import { SiFiles } from "react-icons/si";
 
 const menuItems = [
   {
-    name: "Clases",
+    name: "Inicio",
     href: "/dashboard",
+    icon: <IoIosHome className="text-2xl" />,
+  },
+  {
+    name: "Clases",
+    href: "/dashboard/clases",
     icon: <FaVideo className="text-2xl" />,
   },
   {
