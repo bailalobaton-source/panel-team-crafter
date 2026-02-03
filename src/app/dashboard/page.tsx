@@ -76,7 +76,7 @@ export default function Inicio() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard
             title="Ingresos Brutos"
-            value={`S/ ${stats.revenue.toFixed(2)}`}
+            value={`$/ ${stats.revenue.toFixed(2)}`}
             icon={<BiWallet />}
             color="text-blue-600"
             bg="bg-blue-50"
@@ -149,7 +149,7 @@ export default function Inicio() {
                           })}
                         </td>
                         <td className="px-6 py-4 font-bold text-slate-800">
-                          S/ {sub.precio}
+                          $/ {sub.precio}
                         </td>
                         <td className="px-6 py-4">
                           <span className="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">

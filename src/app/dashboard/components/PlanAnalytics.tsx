@@ -122,7 +122,7 @@ export default function PlanAnalytics() {
                   <span className="text-gray-600 font-medium">{p.plan}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-gray-400 text-xs">S/ {p.precio}</span>
+                  <span className="text-gray-400 text-xs">$/ {p.precio}</span>
                   <span className="font-bold text-gray-800">{p.total}</span>
                 </div>
               </div>
