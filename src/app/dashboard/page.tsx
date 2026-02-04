@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   BiTrendingUp,
   BiUserCheck,
@@ -15,6 +15,7 @@ import AnalyticsSkeleton from "./components/AnalyticsSkeleton";
 import instance from "@/src/service/axiosInstance";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { handleAxiosError } from "@/utils/errorHandler";
 export type PeriodType = "day" | "week" | "month" | "year";
 export interface AnalyticsItem {
   label: string | number;
@@ -38,7 +39,7 @@ export default function Inicio() {
         const res = await instance.get("/suscripcion-admin/stats");
         setStats(res.data.data);
       } catch (e) {
-        console.error("Error fetching stats", e);
+        handleAxiosError(e);
       } finally {
         setLoading(false);
       }
