@@ -32,18 +32,27 @@ interface Props {
 }
 
 export default function LineAnalytics({ data, period }: Props) {
-  // Función para formatear las etiquetas del Eje X según el tipo de periodo
   const getFormattedLabel = (rawLabel: string | number) => {
     if (period === "day") {
       // El backend devuelve horas (ej: 14), añadimos formato hora
       return `${rawLabel}:00`;
     }
+
     if (period === "year") {
-      // El backend devuelve número de mes (1-12 SQL). Convertimos a nombre.
-      const monthIndex = Number(rawLabel) - 1; // JS es 0-11
+      // 1. Convertimos y validamos estrictamente que sea un número
+      const numLabel = Number(rawLabel);
+
+      // 2. Si no es un número, o no está entre 1 y 12, devolvemos el valor original
+      if (isNaN(numLabel) || numLabel < 1 || numLabel > 12) {
+        return String(rawLabel);
+      }
+
+      // 3. Si todo está bien, formateamos
+      const monthIndex = numLabel - 1; // JS es 0-11
       const date = new Date(2024, monthIndex, 1);
       return format(date, "MMM", { locale: es }); // Ene, Feb
     }
+
     // Para week y month, el backend suele devolver fecha completa (YYYY-MM-DD)
     try {
       if (typeof rawLabel === "string" && rawLabel.includes("-")) {
@@ -51,9 +60,10 @@ export default function LineAnalytics({ data, period }: Props) {
         return format(date, "d MMM", { locale: es });
       }
     } catch (e) {
-      return rawLabel;
+      return String(rawLabel);
     }
-    return rawLabel;
+
+    return String(rawLabel);
   };
 
   const chartData = {

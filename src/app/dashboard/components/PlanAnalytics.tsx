@@ -79,7 +79,7 @@ export default function PlanAnalytics() {
           Distribución por Plan
         </h3>
         <p className="text-xs text-gray-500">
-          Rendimiento anual por tipo de plan
+          Rendimiento mensual por tipo de plan
         </p>
       </div>
 
@@ -89,7 +89,7 @@ export default function PlanAnalytics() {
         </div>
       ) : plans.length === 0 ? (
         <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
-          Sin datos anuales
+          Sin datos mensual
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center relative">
