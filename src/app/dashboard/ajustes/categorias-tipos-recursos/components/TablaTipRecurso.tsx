@@ -13,6 +13,7 @@ import {
 } from "@heroui/react";
 import { BiPencil } from "react-icons/bi";
 import { BsTrash2 } from "react-icons/bs";
+import { LuPlus } from "react-icons/lu";
 
 interface Props {
   tips: TipClase[];
@@ -28,80 +29,94 @@ export default function TablaTipRecurso({
   setOpenModal,
 }: Props) {
   return (
-    <div className="w-1/2">
-      <section className="w-full flex justify-between">
-        <h2 className="text-sm font-semibold">Tipos Recurso</h2>
+    <div className="w-full flex flex-col gap-4">
+      {/* SECCIÓN DE BOTÓN DE AGREGAR */}
+      <div className="w-full flex justify-end">
         <Button
-          className="bg-pink-500 text-white"
-          color="warning"
-          size="sm"
+          className="bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold px-4 h-9 rounded-lg transition-colors border border-pink-200/50 shadow-sm"
+          startContent={<LuPlus className="text-base stroke-[3]" />}
           onPress={() => {
             setSelectModal("crear_tip");
             setOpenModal(true);
           }}
         >
-          Agregar Tip
+          Nuevo Tipo
         </Button>
-      </section>
+      </div>
+
+      {/* TABLA DE TIPS / TIPOS DE RECURSO */}
       <Table
-        aria-label="Tabla de tips"
-        color="default"
-        isStriped
+        aria-label="Tabla de gestión de tipos de recurso"
+        removeWrapper // Remueve el contenedor con sombra por defecto para que se integre a la tarjeta
         classNames={{
-          base: "min-w-full max-h-[70vh] overflow-scroll p-4 px-0",
-          wrapper: "p-0",
+          base: "min-w-full max-h-[60vh] overflow-y-auto custom-scrollbar",
+          table: "min-w-full",
+          th: "bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider py-3 border-b border-slate-200",
+          td: "py-3 border-b border-slate-100/80 text-slate-700 align-middle",
+          tr: "hover:bg-slate-50/50 transition-colors duration-200",
         }}
-        radius="sm"
-        isCompact
       >
         <TableHeader>
-          <TableColumn className="text-xs text-stone-800">#</TableColumn>
-
-          <TableColumn className="text-xs text-stone-800">
-            Nombre ES
-          </TableColumn>
-          <TableColumn className="text-xs text-stone-800">
-            Nombre EN
-          </TableColumn>
-
-          <TableColumn className="text-xs text-stone-800">Acciones</TableColumn>
+          <TableColumn className="w-10 text-center">#</TableColumn>
+          <TableColumn>Nombre (ES)</TableColumn>
+          <TableColumn>Nombre (EN)</TableColumn>
+          <TableColumn align="center">Acciones</TableColumn>
         </TableHeader>
-        <TableBody>
+
+        <TableBody emptyContent={"No hay tipos registrados aún."}>
           {tips?.map((tip, index) => (
             <TableRow key={tip.id}>
-              <TableCell className="text-xs">{index + 1}</TableCell>
+              {/* ÍNDICE */}
+              <TableCell className="text-sm font-medium text-slate-400 text-center">
+                {index + 1}
+              </TableCell>
 
-              <TableCell className="text-xs">{tip.nombre_es}</TableCell>
-              <TableCell className="text-xs">{tip.nombre_en}</TableCell>
+              {/* NOMBRE ES */}
+              <TableCell>
+                <span className="text-sm font-semibold text-slate-800">
+                  {tip.nombre_es}
+                </span>
+              </TableCell>
 
-              <TableCell className="h-full">
-                <div className="h-full flex items-center  gap-1">
-                  <Tooltip content="Editar">
+              {/* NOMBRE EN (Ligeramente más sutil para jerarquía visual) */}
+              <TableCell>
+                <span className="text-sm text-slate-500">
+                  {tip.nombre_en || (
+                    <span className="italic text-slate-300">-</span>
+                  )}
+                </span>
+              </TableCell>
+
+              {/* ACCIONES */}
+              <TableCell>
+                <div className="flex items-center justify-center gap-2">
+                  <Tooltip content="Editar Tipo" color="foreground" delay={0}>
                     <Button
                       isIconOnly
                       size="sm"
-                      color="primary"
+                      className="bg-slate-100 text-slate-500 hover:bg-cyan-500 hover:text-white transition-colors shadow-sm"
                       onPress={() => {
                         setSelectedTip(tip);
                         setSelectModal("editar_tip");
                         setOpenModal(true);
                       }}
                     >
-                      <BiPencil className="w-4 h-4" />
+                      <BiPencil className="text-base" />
                     </Button>
                   </Tooltip>
-                  <Tooltip content="Eliminar ">
+
+                  <Tooltip content="Eliminar Tipo" color="danger" delay={0}>
                     <Button
                       isIconOnly
                       size="sm"
-                      color="danger"
+                      className="bg-slate-100 text-slate-500 hover:bg-rose-500 hover:text-white transition-colors shadow-sm"
                       onPress={() => {
                         setSelectedTip(tip);
                         setSelectModal("eliminar_tip");
                         setOpenModal(true);
                       }}
                     >
-                      <BsTrash2 className="w-4 h-4" />
+                      <BsTrash2 className="text-base" />
                     </Button>
                   </Tooltip>
                 </div>

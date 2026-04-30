@@ -13,6 +13,7 @@ import {
 } from "@heroui/react";
 import { BiPencil } from "react-icons/bi";
 import { BsTrash2 } from "react-icons/bs";
+import { LuMessageCircle, LuPlay } from "react-icons/lu";
 
 interface Props {
   clases: Clase[];
@@ -28,108 +29,133 @@ export default function TablaClases({
   setOpenModal,
 }: Props) {
   return (
-    <div>
+    <div className="w-full">
       <Table
-        aria-label="Tabla de Clases"
-        color="default"
-        isStriped
+        aria-label="Tabla de Gestión de Clases"
+        removeWrapper // Quita el fondo por defecto para que herede el de la Card padre
         classNames={{
-          base: "min-w-full max-h-[70vh] overflow-scroll p-4",
-          wrapper: "p-0",
+          base: "min-w-full max-h-[70vh] overflow-y-auto custom-scrollbar",
+          table: "min-w-full",
+          th: "bg-slate-50 text-slate-500 font-bold uppercase text-[11px] tracking-wider py-4 border-b border-slate-200",
+          td: "py-4 border-b border-slate-100/80 text-slate-700",
+          tr: "hover:bg-slate-50/50 transition-colors duration-200",
         }}
-        radius="sm"
-        isCompact
       >
         <TableHeader>
-          <TableColumn className="text-xs text-stone-800">#</TableColumn>
-
-          <TableColumn className="text-xs text-stone-800">Título</TableColumn>
-          <TableColumn className="text-xs text-stone-800">
-            Categoria
-          </TableColumn>
-          <TableColumn className="text-xs text-stone-800">
-            Tutoriales / Tips
-          </TableColumn>
-
-          <TableColumn className="text-xs text-stone-800">
-            Ver Clase y Recurso
-          </TableColumn>
-          <TableColumn className="text-xs text-stone-800">
-            Comentarios
-          </TableColumn>
-          <TableColumn className="text-xs text-stone-800">Acciones</TableColumn>
+          <TableColumn className="w-10 text-center">#</TableColumn>
+          <TableColumn>Título de la Clase</TableColumn>
+          <TableColumn>Categoría</TableColumn>
+          <TableColumn>Tutoriales / Tips</TableColumn>
+          <TableColumn align="center">Recursos</TableColumn>
+          <TableColumn align="center">Comentarios</TableColumn>
+          <TableColumn align="center">Acciones</TableColumn>
         </TableHeader>
-        <TableBody>
+
+        <TableBody emptyContent={"No hay clases registradas aún."}>
           {clases?.map((clase, index) => (
             <TableRow key={index}>
-              <TableCell className="text-xs">{index + 1}</TableCell>
+              {/* ÍNDICE */}
+              <TableCell className="text-sm font-medium text-slate-400 text-center">
+                {index + 1}
+              </TableCell>
 
-              <TableCell className="text-xs">{clase.titulo_clase}</TableCell>
-              <TableCell className="text-xs ">
-                {clase.categorias_id?.map((i) => (
-                  <p key={i.id}>{i?.categoria_clase?.nombre_es || ""}</p>
-                ))}
+              {/* TÍTULO */}
+              <TableCell className="text-sm font-semibold text-slate-800">
+                {clase.titulo_clase}
               </TableCell>
-              <TableCell className="text-xs">
-                {clase.tips_id?.map((i) => (
-                  <p key={i.id}>{i?.tip_clase?.nombre_es || ""}</p>
-                ))}
+
+              {/* CATEGORÍAS (Pills en Cyan) */}
+              <TableCell>
+                <div className="flex flex-wrap gap-1.5">
+                  {clase.categorias_id?.map((i) => (
+                    <span
+                      key={i.id}
+                      className="px-2.5 py-1 bg-cyan-50 text-cyan-700 border border-cyan-100 rounded-lg text-[11px] font-bold tracking-wide"
+                    >
+                      {i?.categoria_clase?.nombre_es || ""}
+                    </span>
+                  ))}
+                </div>
               </TableCell>
-              <TableCell className="text-xs">
-                <Button
-                  color="warning"
-                  size="sm"
-                  onPress={() => {
-                    setSelectedClase(clase);
-                    setSelectModal("ver_clase_recurso");
-                    setOpenModal(true);
-                  }}
-                >
-                  ver clase y recurso
-                </Button>
+
+              {/* TIPS (Pills en Amarillo/Naranja sutil) */}
+              <TableCell>
+                <div className="flex flex-wrap gap-1.5">
+                  {clase.tips_id?.map((i) => (
+                    <span
+                      key={i.id}
+                      className="px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-100 rounded-lg text-[11px] font-bold tracking-wide"
+                    >
+                      {i?.tip_clase?.nombre_es || ""}
+                    </span>
+                  ))}
+                </div>
               </TableCell>
-              <TableCell className="text-xs">
-                <Button
-                  className="scale-90"
-                  color="success"
-                  size="sm"
-                  onPress={() => {
-                    setSelectedClase(clase);
-                    setSelectModal("comentarios_clase");
-                    setOpenModal(true);
-                  }}
-                >
-                  Gestionar Comentarios
-                </Button>
+
+              {/* VER CLASE Y RECURSO (Botón Cyan) */}
+              <TableCell>
+                <div className="flex justify-center">
+                  <Button
+                    className="bg-cyan-50 hover:bg-cyan-100 text-cyan-600 font-medium px-3 h-8 text-xs transition-colors border border-cyan-200/50"
+                    startContent={<LuPlay className="text-lg" />}
+                    onPress={() => {
+                      setSelectedClase(clase);
+                      setSelectModal("ver_clase_recurso");
+                      setOpenModal(true);
+                    }}
+                  >
+                    Ver Clase
+                  </Button>
+                </div>
               </TableCell>
-              <TableCell className="h-full">
-                <div className="h-full flex items-center justify-center gap-1">
-                  <Tooltip content="Editar">
+
+              {/* COMENTARIOS (Botón Rosa) */}
+              <TableCell>
+                <div className="flex justify-center">
+                  <Button
+                    className="bg-pink-50 hover:bg-pink-100 text-pink-600 font-medium px-3 h-8 text-xs transition-colors border border-pink-200/50"
+                    startContent={<LuMessageCircle className="text-lg" />}
+                    onPress={() => {
+                      setSelectedClase(clase);
+                      setSelectModal("comentarios_clase");
+                      setOpenModal(true);
+                    }}
+                  >
+                    Comentarios
+                  </Button>
+                </div>
+              </TableCell>
+
+              {/* ACCIONES (Editar / Eliminar) */}
+              <TableCell>
+                <div className="flex items-center justify-center gap-2">
+                  <Tooltip content="Editar Clase" color="foreground" delay={0}>
                     <Button
                       isIconOnly
                       size="sm"
-                      color="primary"
+                      className="bg-slate-100 text-slate-500 hover:bg-cyan-500 hover:text-white transition-colors shadow-sm"
                       onPress={() => {
                         setSelectedClase(clase);
                         setSelectModal("editar_clase");
                         setOpenModal(true);
                       }}
                     >
-                      <BiPencil className="w-4 h-4" />
+                      <BiPencil className="text-base" />
                     </Button>
                   </Tooltip>
-                  <Tooltip content="Eliminar Clase">
+
+                  <Tooltip content="Eliminar Clase" color="danger" delay={0}>
                     <Button
                       isIconOnly
                       size="sm"
-                      color="danger"
+                      className="bg-slate-100 text-slate-500 hover:bg-rose-500 hover:text-white transition-colors shadow-sm"
                       onPress={() => {
                         setSelectedClase(clase);
                         setSelectModal("eliminar_clase");
                         setOpenModal(true);
                       }}
                     >
-                      <BsTrash2 className="w-4 h-4" />
+                      <BsTrash2 className="text-base" />
                     </Button>
                   </Tooltip>
                 </div>
@@ -137,8 +163,7 @@ export default function TablaClases({
             </TableRow>
           ))}
         </TableBody>
-      </Table>{" "}
-      {/* <VerVideo onClose={onOpenChange} isOpen={isOpen} urlVideo={urlVideo} /> */}
+      </Table>
     </div>
   );
 }
