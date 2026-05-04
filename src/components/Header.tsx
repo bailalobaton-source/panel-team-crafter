@@ -6,36 +6,42 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
-// Iconos
+// Iconos más coherentes y semánticos
 import {
   LuLayoutDashboard,
-  LuFiles,
+  LuMonitorPlay,
+  LuFolderOpen,
   LuBell,
-  LuMessageSquare,
-  LuTicket,
-  LuFlag,
+  LuMessagesSquare,
+  LuTag,
+  LuImage,
+  LuCreditCard,
+  LuUsers,
   LuSettings,
   LuLogOut,
   LuChevronDown,
   LuX,
   LuMenu,
-  LuPlay,
 } from "react-icons/lu";
 
 const menuItems = [
   { name: "Inicio", href: "/dashboard", icon: <LuLayoutDashboard /> },
-  { name: "Clases", href: "/dashboard/clases", icon: <LuPlay /> },
-  { name: "Recursos", href: "/dashboard/recursos", icon: <LuFiles /> },
+  { name: "Clases", href: "/dashboard/clases", icon: <LuMonitorPlay /> },
+  { name: "Recursos", href: "/dashboard/recursos", icon: <LuFolderOpen /> },
   {
     name: "Notificaciones",
     href: "/dashboard/notificaciones",
     icon: <LuBell />,
   },
-  { name: "Foros", href: "/dashboard/foros", icon: <LuMessageSquare /> },
-  { name: "Descuentos", href: "/dashboard/descuentos", icon: <LuTicket /> },
-  { name: "Banners", href: "/dashboard/banner", icon: <LuFlag /> },
-  { name: "Suscripciones", href: "/dashboard/suscripciones", icon: <LuFlag /> },
-  { name: "Usuarios", href: "/dashboard/usuarios", icon: <LuFlag /> },
+  { name: "Foros", href: "/dashboard/foros", icon: <LuMessagesSquare /> },
+  { name: "Descuentos", href: "/dashboard/descuentos", icon: <LuTag /> },
+  { name: "Banners", href: "/dashboard/banner", icon: <LuImage /> },
+  {
+    name: "Suscripciones",
+    href: "/dashboard/suscripciones",
+    icon: <LuCreditCard />,
+  },
+  { name: "Usuarios", href: "/dashboard/usuarios", icon: <LuUsers /> },
 ];
 
 export default function Sidebar() {
