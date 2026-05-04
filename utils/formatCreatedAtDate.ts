@@ -29,3 +29,24 @@ export const formatDate = (dateInput: string) => {
 export const formatDateForInput = (date: Date = new Date()): string => {
   return date.toISOString().split("T")[0];
 };
+
+export const formatDateTimeFull = (isoString: string) => {
+  if (!isoString) return "";
+
+  const date = new Date(isoString);
+
+  if (isNaN(date.getTime())) return "Fecha inválida";
+
+  // Configuramos el formateador para español
+  const formatter = new Intl.DateTimeFormat("es-ES", {
+    day: "2-digit",
+    month: "short", // "long" para nombre completo, "short" para abreviado
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Habilita el formato AM/PM
+  });
+
+  // El resultado será algo como: "28 de febrero de 2026, 5:00 p. m."
+  return formatter.format(date);
+};

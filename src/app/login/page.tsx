@@ -93,7 +93,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="w-full space-y-4">
+          <div className="w-full flex flex-col gap-4">
             <Input
               label="Correo electrónico"
               classNames={{

@@ -34,6 +34,8 @@ const menuItems = [
   { name: "Foros", href: "/dashboard/foros", icon: <LuMessageSquare /> },
   { name: "Descuentos", href: "/dashboard/descuentos", icon: <LuTicket /> },
   { name: "Banners", href: "/dashboard/banner", icon: <LuFlag /> },
+  { name: "Suscripciones", href: "/dashboard/suscripciones", icon: <LuFlag /> },
+  { name: "Usuarios", href: "/dashboard/usuarios", icon: <LuFlag /> },
 ];
 
 export default function Sidebar() {
