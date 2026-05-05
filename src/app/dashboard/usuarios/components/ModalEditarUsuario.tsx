@@ -103,7 +103,6 @@ export default function ModalEditarUsuario({
                     className="w-full sm:w-1/2"
                   />
                   <Input
-                    isRequired
                     classNames={inputClassNames}
                     label="Apellidos"
                     placeholder="Ej. Pérez"

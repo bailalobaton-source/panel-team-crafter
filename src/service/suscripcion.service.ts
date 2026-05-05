@@ -4,7 +4,7 @@ export async function getSuscripcion(filters: any) {
   const params = new URLSearchParams();
   if (filters.fecha_inicio) params.append("fecha_inicio", filters.fecha_inicio);
   if (filters.fecha_final) params.append("fecha_final", filters.fecha_final);
-  if (filters.status) params.append("status", filters.status);
+  if (filters.status) params.append("status", filters.status); // Ahora sí coincidirá
   if (filters.plan_id) params.append("plan_id", filters.plan_id);
   if (filters.user_id) params.append("user_id", filters.user_id);
 

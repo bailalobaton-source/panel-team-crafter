@@ -8,7 +8,7 @@ import {
   Input,
   Autocomplete,
   AutocompleteItem,
-  useDisclosure, // Importación necesaria
+  useDisclosure,
 } from "@heroui/react";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -62,13 +62,13 @@ export default function SuscripcionesPage() {
   const [selectedSuscripcion, setSelectedSuscripcion] =
     useState<SubscriptionType | null>(null);
 
-  // 1. Añadimos user_id al estado de filtros
+  // 1. CORRECCIÓN: Cambiamos 'estado' por 'status' para que coincida con el servicio
   const [filtros, setFiltros] = useState({
     fecha_inicio: formatToInputDate(primerDiaMes),
     fecha_final: formatToInputDate(ultimoDiaMes),
     plan_id: "",
-    estado: "",
-    user_id: "", // Nuevo filtro
+    status: "", // <-- ¡Corregido aquí!
+    user_id: "",
   });
 
   const handleChangeFiltro = (campo: string, valor: string) => {
@@ -78,15 +78,16 @@ export default function SuscripcionesPage() {
     }));
   };
 
-  // 2. Limpiamos también el user_id
   const handleLimpiarFiltros = () => {
     setFiltros({
       fecha_inicio: formatToInputDate(primerDiaMes),
       fecha_final: formatToInputDate(ultimoDiaMes),
       plan_id: "",
-      estado: "",
+      status: "", // <-- ¡Corregido aquí!
       user_id: "",
     });
+    // Opcional: El usuario ahora tendrá que darle a "Buscar" para aplicar la limpieza,
+    // lo cual respeta tu regla de no buscar automáticamente.
   };
 
   const gfindSuscripcion = useCallback(async () => {
@@ -103,19 +104,20 @@ export default function SuscripcionesPage() {
 
   const gfindUser = useCallback(async () => {
     try {
+      // Como solo lo usas para llenar el Autocomplete, no le pasamos filtros aquí.
       const res = await getUser();
-      console.log(res);
-
       setUsuarios(res);
     } catch (err) {
       handleAxiosError(err);
     }
   }, []);
 
+  // 2. CORRECCIÓN: Eliminamos las dependencias del useEffect para que SOLO se ejecute al montar la vista
   useEffect(() => {
     gfindSuscripcion();
     gfindUser();
-  }, [gfindSuscripcion, gfindUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // <-- Array vacío asegura que no se dispare al tipear en los inputs
 
   const handleNew = () => {
     setSelectedSuscripcion(null);
@@ -188,7 +190,7 @@ export default function SuscripcionesPage() {
                   key={user.id}
                   textValue={`${user.nombre} ${user.apellidos || ""} - ${user.correo}`}
                 >
-                  <div className="flex flex-col  py-1">
+                  <div className="flex flex-col py-1">
                     <span className="text-xs font-semibold text-slate-700">
                       {user.nombre} {user.apellidos}
                     </span>
@@ -257,8 +259,8 @@ export default function SuscripcionesPage() {
               size="sm"
               labelPlacement="outside"
               variant="bordered"
-              selectedKeys={filtros.estado ? [filtros.estado] : []}
-              onChange={(e) => handleChangeFiltro("estado", e.target.value)}
+              selectedKeys={filtros.status ? [filtros.status] : []} // <-- CORREGIDO AQUÍ (usamos status)
+              onChange={(e) => handleChangeFiltro("status", e.target.value)} // <-- CORREGIDO AQUÍ
               classNames={selectClassNames}
             >
               <SelectItem key="">Todos</SelectItem>
@@ -270,6 +272,7 @@ export default function SuscripcionesPage() {
           </div>
 
           <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+            {/* EL BOTÓN DE BUSCAR ES EL ÚNICO QUE DISPARA EL FETCH AHORA */}
             <Button
               isIconOnly
               className="bg-[#e0f7fa] text-[#3BB8B3] hover:bg-[#b2ebf2] hover:text-[#00838f]"

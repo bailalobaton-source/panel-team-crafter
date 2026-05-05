@@ -17,7 +17,6 @@ export async function getUser(filtros?: any) {
 }
 
 export async function updateUser(id: string, data: any) {
-  // Apuntamos a la ruta específica del usuario por su ID
   const res = await instance.patch(`/user-admin/${id}`, data);
   return res.data;
 }
