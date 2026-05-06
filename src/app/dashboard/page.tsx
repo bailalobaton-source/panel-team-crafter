@@ -127,7 +127,7 @@ export default function Inicio() {
             ring="ring-pink-100"
           />
           <StatCard
-            title="Clientes Únicos"
+            title="Usuarios con Acceso"
             value={stats.users}
             icon={<LuUsers />}
             color="text-violet-600"

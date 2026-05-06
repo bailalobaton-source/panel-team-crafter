@@ -7,19 +7,15 @@ import {
   SelectItem,
   Input,
   useDisclosure,
+  Switch, // <-- Importado Switch
 } from "@heroui/react";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { LuUsers, LuPlus, LuSearch, LuFilterX } from "react-icons/lu";
+import { LuUsers, LuSearch, LuFilterX } from "react-icons/lu";
 
-// Componentes adaptados para Usuarios (Asegúrate de renombrar/crear estos archivos en tu proyecto)
-// import TablaUsuarios from "./components/TablaUsuarios";
-// import ModalNuevoUsuario from "./components/ModalNuevoUsuario";
-// import ModalEliminarUsuario from "./components/ModalEliminarUsuario";
-
-// Interfaces y Servicios
+// Componentes adaptados para Usuarios
 import { User } from "@/src/interfaces/user.type";
-import { getUser } from "@/src/service/user.service"; // Debe aceptar filtros si tu backend lo soporta
+import { getUser } from "@/src/service/user.service";
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
 import TablaUsuarios from "./components/TablaUsuarios";
 import ModalEditarUsuario from "./components/ModalEditarUsuario";
@@ -60,13 +56,16 @@ export default function UsuariosPage() {
   const [loading, setLoading] = useState(false);
   const [selectedUsuario, setSelectedUsuario] = useState<User | null>(null);
 
+  // NUEVO: Estado para controlar si se usan las fechas o no
+  const [usarFechas, setUsarFechas] = useState(false);
+
   // Filtros adaptados para usuarios
   const [filtros, setFiltros] = useState({
     fecha_inicio: formatToInputDate(primerDiaMes),
     fecha_final: formatToInputDate(ultimoDiaMes),
-    busqueda: "", // Cambiado de user_id a una búsqueda de texto libre (nombre, correo)
-    estado: "", // Puede servir si manejas usuarios activos/inactivos
-    rol: "", // Útil si manejas roles (admin, estudiante, etc.)
+    busqueda: "",
+    estado: "",
+    rol: "",
   });
 
   const handleChangeFiltro = (campo: string, valor: string) => {
@@ -77,6 +76,7 @@ export default function UsuariosPage() {
   };
 
   const handleLimpiarFiltros = () => {
+    setUsarFechas(false); // Apagamos el switch al limpiar
     setFiltros({
       fecha_inicio: formatToInputDate(primerDiaMes),
       fecha_final: formatToInputDate(ultimoDiaMes),
@@ -90,25 +90,25 @@ export default function UsuariosPage() {
   const gfindUsuarios = useCallback(async () => {
     setLoading(true);
     try {
-      // Asume que getUser() puede recibir parámetros de búsqueda
-      const res = await getUser(filtros);
+      // Condicionamos lo que se envía al backend
+      const parametrosFiltro = {
+        ...filtros,
+        fecha_inicio: usarFechas ? filtros.fecha_inicio : "",
+        fecha_final: usarFechas ? filtros.fecha_final : "",
+      };
+
+      const res = await getUser(parametrosFiltro);
       setUsuarios(res);
     } catch (err) {
       handleAxiosError(err);
     } finally {
       setLoading(false);
     }
-  }, [filtros]);
+  }, [filtros, usarFechas]); // Agregamos usarFechas a las dependencias
 
   useEffect(() => {
     gfindUsuarios();
   }, [gfindUsuarios]);
-
-  const handleNew = () => {
-    setSelectedUsuario(null);
-    onOpen();
-    setSelectModal("nuevo_usuario");
-  };
 
   return (
     <main className="w-full min-h-screen bg-slate-50 pb-12 overflow-y-auto">
@@ -116,7 +116,6 @@ export default function UsuariosPage() {
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 py-5 md:px-10 shadow-sm shadow-slate-100">
         <div className="max-w-[1600px] mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            {/* Ícono cambiado a Usuarios */}
             <div className="p-3 bg-[#e0f7fa] text-pink-500 rounded-xl shadow-inner border border-cyan-100">
               <LuUsers className="text-2xl" />
             </div>
@@ -129,14 +128,6 @@ export default function UsuariosPage() {
               </p>
             </div>
           </div>
-
-          <Button
-            className="bg-gradient-to-r from-[#48D1CC] to-[#FF69B4] hover:from-[#3BB8B3] hover:to-[#FF1493] text-white font-bold shadow-lg shadow-pink-200 px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all hover:scale-[1.02] border-0"
-            onPress={handleNew}
-            startContent={<LuPlus className="text-xl stroke-[3]" />}
-          >
-            Nuevo Usuario
-          </Button>
         </div>
       </div>
 
@@ -151,7 +142,7 @@ export default function UsuariosPage() {
           variants={itemVariants}
           className="flex flex-wrap gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm items-end"
         >
-          {/* BUSCADOR DE TEXTO (Reemplaza al Autocomplete) */}
+          {/* BUSCADOR DE TEXTO */}
           <div className="w-full sm:w-56 md:w-64">
             <Input
               label="Buscar Usuario"
@@ -162,38 +153,6 @@ export default function UsuariosPage() {
               classNames={inputClassNames}
               value={filtros.busqueda}
               onChange={(e) => handleChangeFiltro("busqueda", e.target.value)}
-            />
-          </div>
-
-          <div className="w-full sm:w-36">
-            <Input
-              label="Registrado desde"
-              size="sm"
-              type="date"
-              labelPlacement="outside"
-              variant="bordered"
-              placeholder=" "
-              classNames={inputClassNames}
-              value={filtros.fecha_inicio}
-              onChange={(e) =>
-                handleChangeFiltro("fecha_inicio", e.target.value)
-              }
-            />
-          </div>
-
-          <div className="w-full sm:w-36">
-            <Input
-              label="Registrado hasta"
-              size="sm"
-              type="date"
-              labelPlacement="outside"
-              variant="bordered"
-              placeholder=" "
-              classNames={inputClassNames}
-              value={filtros.fecha_final}
-              onChange={(e) =>
-                handleChangeFiltro("fecha_final", e.target.value)
-              }
             />
           </div>
 
@@ -212,6 +171,65 @@ export default function UsuariosPage() {
               <SelectItem key="inactivo">Inactivo</SelectItem>
             </Select>
           </div>
+
+          {/* TOGGLE PARA ACTIVAR/DESACTIVAR FECHAS */}
+          <div className="flex items-center h-full pb-2 px-2">
+            <Switch
+              size="sm"
+              color="primary"
+              isSelected={usarFechas}
+              onValueChange={setUsarFechas}
+            >
+              <span className="text-sm text-slate-600 font-medium">
+                Filtrar por fecha
+              </span>
+            </Switch>
+          </div>
+
+          {/* INPUTS DE FECHA (Solo se muestran si usarFechas es true) */}
+          {usarFechas && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full sm:w-36"
+              >
+                <Input
+                  label="Registrado desde"
+                  size="sm"
+                  type="date"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  placeholder=" "
+                  classNames={inputClassNames}
+                  value={filtros.fecha_inicio}
+                  onChange={(e) =>
+                    handleChangeFiltro("fecha_inicio", e.target.value)
+                  }
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full sm:w-36"
+              >
+                <Input
+                  label="Registrado hasta"
+                  size="sm"
+                  type="date"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  placeholder=" "
+                  classNames={inputClassNames}
+                  value={filtros.fecha_final}
+                  onChange={(e) =>
+                    handleChangeFiltro("fecha_final", e.target.value)
+                  }
+                />
+              </motion.div>
+            </>
+          )}
 
           <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
             <Button
@@ -267,14 +285,6 @@ export default function UsuariosPage() {
       </motion.div>
 
       {/* MODALES */}
-      {/* {selectModal === "nuevo_usuario" && (
-        <ModalNuevoUsuario
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          gfindUsuarios={gfindUsuarios}
-        />
-      )}*/}
-
       {selectModal === "editar_usuario" && selectedUsuario && (
         <ModalEditarUsuario
           key={`del-${selectedUsuario.id}`}
@@ -284,15 +294,6 @@ export default function UsuariosPage() {
           usuario={selectedUsuario}
         />
       )}
-      {/* {selectModal === "eliminar_usuario" && selectedUsuario && (
-        <ModalEliminarUsuario
-          key={`del-${selectedUsuario.id}`}
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          gfindUsuarios={gfindUsuarios}
-          usuario={selectedUsuario}
-        />
-      )}  */}
     </main>
   );
 }
