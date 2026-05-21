@@ -23,7 +23,6 @@ import { getUser } from "@/src/service/user.service";
 import ModalNuevaSuscripcion from "./components/ModalNuevaSuscripcion";
 import ModalEliminarSuscripcion from "./components/ModalEliminarSuscripcion";
 
-// Variantes de animación
 const containerVariants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1 } },
