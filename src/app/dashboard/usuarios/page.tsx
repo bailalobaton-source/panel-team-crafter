@@ -48,7 +48,7 @@ const primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
 const ultimoDiaMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
 
 export default function UsuariosPage() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpenChange } = useDisclosure();
   const [selectModal, setSelectModal] = useState("");
 
   // Estados de Usuarios

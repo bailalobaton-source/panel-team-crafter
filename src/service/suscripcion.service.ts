@@ -6,7 +6,7 @@ export async function getSuscripcion(filters: any) {
   if (filters.fecha_final) params.append("fecha_final", filters.fecha_final);
   if (filters.status) params.append("status", filters.status); // Ahora sí coincidirá
   if (filters.plan_id) params.append("plan_id", filters.plan_id);
-  if (filters.user_id) params.append("user_id", filters.user_id);
+  if (filters.busqueda) params.append("busqueda", filters.busqueda);
 
   const res = await instance.get(`/suscripcion-admin?${params.toString()}`);
   return res.data.suscripciones;

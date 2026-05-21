@@ -6,8 +6,6 @@ import {
   Select,
   SelectItem,
   Input,
-  Autocomplete,
-  AutocompleteItem,
   useDisclosure,
 } from "@heroui/react";
 import { useCallback, useEffect, useState } from "react";
@@ -62,13 +60,12 @@ export default function SuscripcionesPage() {
   const [selectedSuscripcion, setSelectedSuscripcion] =
     useState<SubscriptionType | null>(null);
 
-  // 1. CORRECCIÓN: Cambiamos 'estado' por 'status' para que coincida con el servicio
   const [filtros, setFiltros] = useState({
     fecha_inicio: formatToInputDate(primerDiaMes),
     fecha_final: formatToInputDate(ultimoDiaMes),
     plan_id: "",
-    status: "", // <-- ¡Corregido aquí!
-    user_id: "",
+    status: "",
+    busqueda: "",
   });
 
   const handleChangeFiltro = (campo: string, valor: string) => {
@@ -83,11 +80,9 @@ export default function SuscripcionesPage() {
       fecha_inicio: formatToInputDate(primerDiaMes),
       fecha_final: formatToInputDate(ultimoDiaMes),
       plan_id: "",
-      status: "", // <-- ¡Corregido aquí!
-      user_id: "",
+      status: "",
+      busqueda: "",
     });
-    // Opcional: El usuario ahora tendrá que darle a "Buscar" para aplicar la limpieza,
-    // lo cual respeta tu regla de no buscar automáticamente.
   };
 
   const gfindSuscripcion = useCallback(async () => {
@@ -104,7 +99,6 @@ export default function SuscripcionesPage() {
 
   const gfindUser = useCallback(async () => {
     try {
-      // Como solo lo usas para llenar el Autocomplete, no le pasamos filtros aquí.
       const res = await getUser();
       setUsuarios(res);
     } catch (err) {
@@ -112,12 +106,13 @@ export default function SuscripcionesPage() {
     }
   }, []);
 
-  // 2. CORRECCIÓN: Eliminamos las dependencias del useEffect para que SOLO se ejecute al montar la vista
+  useEffect(() => {
+    gfindUser();
+  }, []);
+
   useEffect(() => {
     gfindSuscripcion();
-    gfindUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // <-- Array vacío asegura que no se dispare al tipear en los inputs
+  }, [filtros]);
 
   const handleNew = () => {
     setSelectedSuscripcion(null);
@@ -166,41 +161,16 @@ export default function SuscripcionesPage() {
           className="flex flex-wrap gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm items-end"
         >
           <div className="w-full sm:w-56 md:w-64 ">
-            <Autocomplete
-              label="Usuario"
-              placeholder="Buscar por nombre o correo"
+            <Input
+              label="Buscar Usuario"
+              placeholder="Nombre o correo..."
               size="sm"
               labelPlacement="outside"
               variant="bordered"
-              selectedKey={filtros.user_id}
-              onSelectionChange={(key) =>
-                handleChangeFiltro("user_id", key ? key.toString() : "")
-              }
-              inputProps={{
-                classNames: {
-                  input: "text-sm text-slate-700",
-                  inputWrapper:
-                    "min-h-10 border-1 border-slate-300 bg-slate-50 hover:border-[#48D1CC] focus-within:border-[#48D1CC] shadow-sm transition-colors",
-                  label: "pb-1 text-[0.8rem] text-slate-600 font-semibold",
-                },
-              }}
-            >
-              {usuarios.map((user) => (
-                <AutocompleteItem
-                  key={user.id}
-                  textValue={`${user.nombre} ${user.apellidos || ""} - ${user.correo}`}
-                >
-                  <div className="flex flex-col py-1">
-                    <span className="text-xs font-semibold text-slate-700">
-                      {user.nombre} {user.apellidos}
-                    </span>
-                    <span className="text-xs text-slate-400">
-                      {user.correo}
-                    </span>
-                  </div>
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
+              classNames={inputClassNames}
+              value={filtros.busqueda}
+              onChange={(e) => handleChangeFiltro("busqueda", e.target.value)}
+            />
           </div>
 
           <div className="w-full sm:w-36">
