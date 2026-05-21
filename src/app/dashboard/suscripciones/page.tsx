@@ -99,7 +99,7 @@ export default function SuscripcionesPage() {
 
   const gfindUser = useCallback(async () => {
     try {
-      const res = await getUser();
+      const res = await getUser({ no_limit: true });
       setUsuarios(res);
     } catch (err) {
       handleAxiosError(err);
