@@ -42,19 +42,18 @@ export default function ModalNuevaSuscripcion({
     try {
       setLoading(true);
 
-      // Limpiamos strings vacíos de los IDs de pago para evitar errores en DB
       const payload = {
         ...data,
         suscripcion_id_paypal: data.suscripcion_id_paypal || null,
         flow_subscription_id: data.flow_subscription_id || null,
       };
 
-      await postSuscripcion(payload); // <-- Llamada al servicio correcto
+      await postSuscripcion(payload);
 
       toast.success("La suscripción se creó correctamente");
       reset();
       gfindSuscripcion();
-      onOpenChange(); // Cierra el modal
+      onOpenChange();
     } catch (err) {
       handleAxiosError(err);
     } finally {
