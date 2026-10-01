@@ -4,7 +4,7 @@ import { User } from "@/src/interfaces/user.type";
 import { postSuscripcion } from "@/src/service/suscripcion.service"; // <-- Asegúrate de tener este servicio
 import { inputClassNames, selectClassNames } from "@/utils/classNames";
 import { handleAxiosError } from "@/utils/errorHandler";
-import { useNumericInput } from "@/utils/onInputs";
+import { handleDecimalInput } from "@/utils/onInputs";
 import {
   Modal,
   ModalBody,
@@ -162,7 +162,7 @@ export default function ModalNuevaSuscripcion({
                     {...register("precio", { valueAsNumber: true })}
                     radius="sm"
                     size="sm"
-                    onInput={useNumericInput}
+                    onInput={handleDecimalInput}
                     className="w-full sm:w-1/3"
                   />
                 </div>
