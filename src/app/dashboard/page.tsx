@@ -112,7 +112,7 @@ export default function Inicio() {
           <StatCard
             title="Ingresos Brutos"
             value={stats.revenue.toFixed(2)}
-            prefix="S/ "
+            prefix="$ "
             icon={<LuWallet />}
             color="text-blue-600"
             bg="bg-blue-50"
